@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WholesaleIQ</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#08192E;--navy-mid:#0F2540;--navy-card:#132B4A;--navy-hover:#1A3560;--gold:#C9A84C;--gold-light:#E4C76B;--gold-dim:rgba(201,168,76,0.13);--muted:#7A97B8;--light:#B8CDE4;--red:#FF4A4A;--green:#22C47E;--blue:#3D8EFF;--border:rgba(201,168,76,0.16);--border-soft:rgba(255,255,255,0.05);--r:15px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:'DM Sans',sans-serif;background:var(--navy);color:#fff;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 90% 60% at 15% -5%,rgba(201,168,76,0.06) 0%,transparent 55%),radial-gradient(ellipse 70% 50% at 85% 105%,rgba(34,196,126,0.04) 0%,transparent 50%);}
+.app{max-width:480px;margin:0 auto;height:100vh;display:flex;flex-direction:column;position:relative;z-index:1;overflow:hidden;}
+.hdr{padding:16px 20px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border-soft);}
+.brand{display:flex;align-items:center;gap:10px;}
+.logo{width:36px;height:36px;background:linear-gradient(135deg,var(--gold),var(--gold-light));border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:800;font-size:18px;color:var(--navy);box-shadow:0 4px 14px rgba(201,168,76,0.36);}
+.brand-words h1{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;line-height:1;}
+.brand-words p{font-size:9px;color:var(--muted);font-weight:500;letter-spacing:0.8px;text-transform:uppercase;margin-top:1px;}
+.live-pill{display:flex;align-items:center;gap:5px;background:rgba(34,196,126,0.09);border:1px solid rgba(34,196,126,0.24);border-radius:20px;padding:4px 10px;font-size:10px;font-weight:600;color:var(--green);}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.stats{margin:10px 20px 0;background:var(--navy-card);border:1px solid var(--border);border-radius:var(--r);padding:13px 0;display:grid;grid-template-columns:1fr 1px 1fr 1px 1fr;}
+.si{text-align:center;padding:0 8px;}
+.sdiv{background:var(--border);}
+.sv{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;line-height:1;margin-bottom:2px;}
+.sv.g{color:var(--gold-light);}.sv.r{color:var(--red);}
+.sl{font-size:9px;color:var(--muted);font-weight:500;}
+.scroll{flex:1;overflow-y:auto;padding-bottom:72px;margin-top:10px;}
+.scroll::-webkit-scrollbar{width:3px;}
+.scroll::-webkit-scrollbar-thumb{background:var(--border);}
+.tp{display:none;padding:0 18px;}
+.tp.on{display:block;}
+.sh{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:700;color:var(--gold-light);display:flex;align-items:center;gap:8px;margin:14px 0 12px;}
+.sh::after{content:'';flex:1;height:1px;background:var(--border);}
+.fbar{display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-top:12px;}
+.fscroll{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex:1;}
+.fscroll::-webkit-scrollbar{display:none;}
+.fb{white-space:nowrap;padding:6px 12px;border-radius:20px;font-size:10.5px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:inherit;}
+.fb.on{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy);border-color:transparent;}
+.lc{font-size:10px;color:var(--muted);}
+
+/* DEAL CARDS */
+.dl{display:flex;flex-direction:column;gap:11px;}
+.dc{background:var(--navy-card);border-radius:var(--r);border:1px solid var(--border);overflow:hidden;cursor:pointer;animation:up 0.36s ease both;}
+.dc.hc{border-color:rgba(255,74,74,0.24);}
+@keyframes up{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.hbar{height:3px;background:linear-gradient(90deg,#FF4A4A,#FF8800,#FFD700);}
+.dci{padding:13px;}
+.dhd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px;}
+.dadr{font-size:13.5px;font-weight:700;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.stag{font-size:8.5px;font-weight:700;padding:2px 6px;border-radius:4px;background:rgba(201,168,76,0.12);color:var(--gold-light);border:1px solid rgba(201,168,76,0.2);}
+.sb{display:flex;align-items:center;gap:3px;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:700;}
+.sb.hot{background:rgba(255,74,74,0.14);color:#FF6B35;border:1px solid rgba(255,74,74,0.24);}
+.sb.warm{background:rgba(255,193,7,0.11);color:#FFC107;border:1px solid rgba(255,193,7,0.2);}
+.sb.cool{background:rgba(61,142,255,0.09);color:#5BAAFF;border:1px solid rgba(61,142,255,0.16);}
+.dloc{font-size:10px;color:var(--muted);margin-bottom:10px;}
+.dnums{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px;}
+.nb{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:8px 6px;text-align:center;}
+.nb.sp{background:rgba(201,168,76,0.08);border-color:rgba(201,168,76,0.18);}
+.nl{font-size:7px;font-weight:700;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-bottom:2px;}
+.nv{font-size:13px;font-weight:700;}
+.nb.sp .nv{color:var(--gold-light);}
+.dft{display:flex;align-items:center;justify-content:space-between;}
+.htag{display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;color:var(--red);background:rgba(255,74,74,0.08);border:1px solid rgba(255,74,74,0.18);padding:3px 8px;border-radius:20px;}
+.hd{width:5px;height:5px;background:var(--red);border-radius:50%;animation:pr 1.5s infinite;}
+@keyframes pr{0%,100%{opacity:1;}50%{opacity:0.2;}}
+.dmeta{display:flex;gap:7px;font-size:9.5px;color:var(--muted);}
+.agent-row{background:rgba(61,142,255,0.06);border:1px solid rgba(61,142,255,0.15);border-radius:7px;padding:6px 9px;margin-top:7px;font-size:10px;color:var(--light);}
+.agent-row strong{color:#5BAAFF;}
+
+/* CONTACT CARDS (used for buyers AND sellers) */
+.bstats{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin:14px 0;}
+.bstat{background:var(--navy-card);border:1px solid var(--border);border-radius:11px;padding:11px 8px;text-align:center;}
+.bstat-val{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold-light);line-height:1;margin-bottom:2px;}
+.bstat-lbl{font-size:9px;color:var(--muted);}
+.btoolbar{display:flex;gap:8px;margin-bottom:12px;}
+.bsearch{flex:1;background:var(--navy-card);border:1px solid var(--border);border-radius:22px;padding:9px 14px;font-size:12px;color:#fff;font-family:inherit;outline:none;}
+.bsearch:focus{border-color:rgba(201,168,76,0.4);}
+.add-btn{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-light));border:none;cursor:pointer;font-size:18px;color:var(--navy);font-weight:700;}
+.bc{background:var(--navy-card);border:1px solid var(--border);border-radius:var(--r);padding:13px;margin-bottom:10px;animation:up 0.36s ease both;}
+.bc.seller-card{border-color:rgba(61,142,255,0.18);}
+.bctop{display:flex;align-items:center;gap:11px;margin-bottom:9px;}
+.bav{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--navy-hover),var(--gold-dim));border:2px solid var(--green);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:var(--gold-light);flex-shrink:0;}
+.bav.seller{border-color:#5BAAFF;color:#5BAAFF;}
+.bmain{flex:1;min-width:0;}
+.bn{font-weight:700;font-size:13.5px;margin-bottom:2px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+.bcompany{font-size:10.5px;color:var(--muted);}
+.bbadges{display:flex;gap:4px;flex-direction:column;align-items:flex-end;}
+.bbadge{font-size:8.5px;font-weight:700;padding:2px 7px;border-radius:7px;}
+.bbadge.cash{background:rgba(34,196,126,0.1);color:var(--green);border:1px solid rgba(34,196,126,0.2);}
+.bbadge.fin{background:rgba(61,142,255,0.1);color:#5BAAFF;border:1px solid rgba(61,142,255,0.16);}
+.bbadge.hedge{background:rgba(155,111,255,0.12);color:#B89EFF;border:1px solid rgba(155,111,255,0.2);}
+.bbadge.match{background:rgba(255,74,74,0.1);color:var(--red);border:1px solid rgba(255,74,74,0.18);}
+.bbadge.v{background:rgba(34,196,126,0.1);color:var(--green);border:1px solid rgba(34,196,126,0.2);}
+.bbadge.agent{background:rgba(61,142,255,0.1);color:#5BAAFF;border:1px solid rgba(61,142,255,0.18);}
+.bcontact{background:rgba(255,255,255,0.03);border:1px solid var(--border-soft);border-radius:9px;padding:8px 10px;margin-bottom:9px;font-size:11px;display:flex;flex-direction:column;gap:4px;}
+.bcontact a{color:#5BAAFF;text-decoration:none;font-weight:600;word-break:break-all;}
+.bcontact .row{display:flex;align-items:center;gap:6px;}
+.bcontact .icon{font-size:11px;width:14px;flex-shrink:0;}
+.bbbox{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:9px;}
+.bbi{background:rgba(255,255,255,0.03);border:1px solid var(--border-soft);border-radius:7px;padding:6px 9px;}
+.bbl{font-size:7.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;color:var(--muted);margin-bottom:1px;}
+.bbv{font-size:11px;font-weight:600;color:var(--light);}
+.bnotes{font-size:10.5px;color:var(--muted);background:rgba(34,196,126,0.04);border:1px solid rgba(34,196,126,0.1);border-radius:7px;padding:7px 9px;margin-bottom:9px;line-height:1.5;}
+.bnotes strong{color:var(--green);}
+.bsource{font-size:9px;color:var(--muted);margin-bottom:9px;display:flex;align-items:center;gap:5px;}
+.bsource strong{color:var(--green);}
+.bacts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
+.bact{padding:8px 5px;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,0.03);cursor:pointer;font-family:inherit;font-size:10px;font-weight:600;color:var(--light);}
+.bact.primary{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy);border-color:transparent;}
+
+/* CONTRACTS */
+.cl{display:flex;flex-direction:column;gap:10px;}
+.cc{background:var(--navy-card);border:1px solid var(--border);border-radius:var(--r);padding:13px;}
+.cch{display:flex;justify-content:space-between;margin-bottom:6px;gap:7px;}
+.ca{font-weight:700;font-size:13px;flex:1;}
+.cs{font-size:8.5px;font-weight:700;padding:2px 8px;border-radius:9px;white-space:nowrap;}
+.cs.signed{background:rgba(34,196,126,0.09);color:var(--green);border:1px solid rgba(34,196,126,0.18);}
+.cs.pending{background:rgba(255,193,7,0.09);color:#FFC107;border:1px solid rgba(255,193,7,0.18);}
+.cs.review{background:rgba(61,142,255,0.09);color:#5BAAFF;border:1px solid rgba(61,142,255,0.16);}
+.cd{font-size:11px;color:var(--muted);line-height:1.5;}
+
+/* TEMPLATES */
+.tpl-hero{background:linear-gradient(135deg,var(--navy-card),var(--navy-hover));border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:13px;margin-top:14px;}
+.tpl-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold-light);margin-bottom:3px;}
+.tpl-sub{font-size:10.5px;color:var(--muted);}
+.tpl-card{background:var(--navy-card);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:11px;}
+.tpl-card-title{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:700;color:var(--gold-light);margin-bottom:4px;}
+.tpl-card-desc{font-size:10.5px;color:var(--muted);margin-bottom:10px;}
+.tpl-body{background:rgba(0,0,0,0.25);border:1px solid var(--border-soft);border-radius:9px;padding:11px;font-size:11px;color:var(--light);line-height:1.65;white-space:pre-wrap;font-family:inherit;}
+.tpl-btn{padding:9px;border-radius:8px;border:none;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy);font-family:inherit;font-size:11px;font-weight:700;cursor:pointer;width:100%;margin-top:9px;}
+
+/* MODALS */
+.mov{position:fixed;inset:0;background:rgba(0,0,0,0.72);backdrop-filter:blur(10px);z-index:300;display:none;align-items:flex-end;justify-content:center;}
+.mov.on{display:flex;}
+.mod{background:var(--navy-mid);border-radius:22px 22px 0 0;border:1px solid var(--border);width:100%;max-width:480px;padding:20px 18px 44px;animation:mup 0.3s cubic-bezier(0.34,1.3,0.64,1) both;max-height:88vh;overflow-y:auto;position:relative;}
+@keyframes mup{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.mhnd{width:34px;height:3px;background:rgba(255,255,255,0.1);border-radius:2px;margin:0 auto 16px;}
+.mclose{position:absolute;top:18px;right:18px;background:rgba(255,255,255,0.06);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:13px;}
+.madr{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:700;margin-bottom:3px;}
+.msub{font-size:11px;color:var(--muted);margin-bottom:16px;}
+
+/* FORM */
+.fs{margin-bottom:15px;}
+.fst{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--gold);margin-bottom:9px;border-bottom:1px solid rgba(201,168,76,0.15);padding-bottom:6px;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+.frow.full{grid-template-columns:1fr;}
+.fg{display:flex;flex-direction:column;gap:4px;}
+.fl{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;}
+.fi{background:var(--navy-card);border:1px solid var(--border);border-radius:9px;padding:10px 12px;font-size:12.5px;color:#fff;font-family:inherit;outline:none;width:100%;}
+.fi option{background:var(--navy-mid);}
+.sgr{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;}
+.sb-cb input{display:none;}
+.sb-cb label{padding:5px 4px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:10px;font-weight:600;cursor:pointer;text-align:center;width:100%;display:block;}
+.sb-cb input:checked + label{background:rgba(201,168,76,0.15);border-color:var(--gold);color:var(--gold-light);}
+.fbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:18px;}
+.fbtn{padding:12px;border-radius:10px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;border:none;}
+.fbtn.cancel{background:transparent;border:1px solid var(--border);color:var(--muted);}
+.fbtn.save{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy);}
+
+/* TOAST + NAV */
+.toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%);background:var(--navy-hover);border:1px solid var(--gold);border-radius:10px;padding:8px 16px;font-size:11.5px;font-weight:600;color:var(--gold-light);z-index:600;opacity:0;transition:all 0.26s;}
+.toast.on{opacity:1;}
+.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(8,25,46,0.97);backdrop-filter:blur(22px);border-top:1px solid var(--border);padding:9px 0 16px;display:grid;grid-template-columns:repeat(7,1fr);z-index:200;}
+.ni{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:2px 1px;font-size:8px;font-weight:600;color:var(--muted);background:none;border:none;font-family:inherit;}
+.ni svg{width:19px;height:19px;}
+.ni.on{color:var(--gold);}
+.ni.on svg{filter:drop-shadow(0 0 5px rgba(201,168,76,0.45));}
+
+/* SOURCE BADGE */
+.src-badge{display:flex;align-items:center;gap:6px;background:rgba(34,196,126,0.08);border:1px solid rgba(34,196,126,0.22);border-radius:10px;padding:8px 12px;margin:14px 0;font-size:11px;color:var(--green);}
+.src-badge strong{color:#fff;font-weight:600;}
+
+/* NOVA */
+.nova-wrap{display:flex;flex-direction:column;height:calc(100vh - 200px);padding-top:12px;}
+.nova-hdr{display:flex;align-items:center;gap:11px;margin-bottom:10px;}
+.norb{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#0F2540,#081929);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 0 20px rgba(201,168,76,0.26);}
+.norb-inner{width:17px;height:17px;background:linear-gradient(135deg,var(--gold),var(--gold-light));border-radius:50%;animation:norb 3s infinite;}
+@keyframes norb{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(201,168,76,0.4);}50%{transform:scale(1.1);box-shadow:0 0 0 6px rgba(201,168,76,0);}}
+.nova-title{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold-light);}
+.nova-sub{font-size:9.5px;color:var(--green);font-weight:600;display:flex;align-items:center;gap:3px;margin-top:1px;}
+.qps{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:8px;padding-bottom:1px;}
+.qps::-webkit-scrollbar{display:none;}
+.qp{white-space:nowrap;padding:6px 12px;border-radius:20px;font-size:10.5px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:rgba(201,168,76,0.05);color:var(--gold-light);font-family:inherit;}
+.qp:hover{background:rgba(201,168,76,0.13);border-color:var(--gold);}
+.msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:11px;padding:3px 0 7px;scrollbar-width:none;}
+.msgs::-webkit-scrollbar{display:none;}
+.msg{display:flex;gap:9px;animation:msgin 0.28s ease both;}
+@keyframes msgin{from{opacity:0;transform:translateY(7px);}to{opacity:1;transform:translateY(0);}}
+.msg.u{flex-direction:row-reverse;}
+.mav{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
+.msg.n .mav{background:linear-gradient(135deg,var(--navy-hover),var(--gold-dim));border:1.5px solid var(--gold);color:var(--gold-light);}
+.msg.u .mav{background:linear-gradient(135deg,var(--blue),#1A3560);color:#fff;}
+.mb{max-width:82%;padding:10px 13px;border-radius:13px;font-size:12.5px;line-height:1.58;}
+.msg.n .mb{background:var(--navy-card);border:1px solid var(--border);border-bottom-left-radius:3px;color:var(--light);}
+.msg.u .mb{background:linear-gradient(135deg,#1A3560,var(--navy-hover));border:1px solid rgba(61,142,255,0.18);border-bottom-right-radius:3px;color:#fff;}
+.mb strong{color:var(--gold-light);font-weight:700;}
+.mt{font-size:9px;color:var(--muted);margin-top:3px;}
+.msg.u .mt{text-align:right;}
+.cia{display:flex;gap:8px;padding-top:9px;border-top:1px solid var(--border);}
+.ci{flex:1;background:var(--navy-card);border:1px solid var(--border);border-radius:22px;padding:10px 15px;font-size:12.5px;color:#fff;font-family:inherit;outline:none;}
+.ci:focus{border-color:rgba(201,168,76,0.42);}
+.csend{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-light));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.csend svg{width:15px;height:15px;fill:var(--navy);}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="hdr">
+    <div class="brand">
+      <div class="logo">W</div>
+      <div class="brand-words"><h1>WholesaleIQ</h1><p>Live Deal Intelligence</p></div>
+    </div>
+    <div class="live-pill"><div class="dot"></div>LIVE</div>
+  </div>
+
+  <div class="stats">
+    <div class="si"><div class="sv" id="s-deals">8</div><div class="sl">5 States</div></div>
+    <div class="sdiv"></div>
+    <div class="si"><div class="sv r">7 🔥</div><div class="sl">Hot Deals</div></div>
+    <div class="sdiv"></div>
+    <div class="si"><div class="sv g">$575K</div><div class="sl">Total Spread</div></div>
+  </div>
+
+  <div class="scroll" id="scroll">
+    <!-- DEALS -->
+    <div class="tp on" id="tab-deals">
+      <div class="fbar">
+        <div class="fscroll">
+          <button class="fb on" onclick="filterDeals('all',this)">All</button>
+          <button class="fb" onclick="filterDeals('hot',this)">🔥 Hot</button>
+          <button class="fb" onclick="filterDeals('TX',this)">TX</button>
+          <button class="fb" onclick="filterDeals('FL',this)">FL</button>
+          <button class="fb" onclick="filterDeals('GA',this)">GA</button>
+          <button class="fb" onclick="filterDeals('OH',this)">OH</button>
+        </div>
+        <span class="lc" id="lc">8 listings</span>
+      </div>
+      <div class="dl" id="deals-list"></div>
+    </div>
+
+    <!-- BUYERS -->
+    <div class="tp" id="tab-buyers">
+      <div class="src-badge">🌐 Real cash buyers from <strong>Connected Investors public listings</strong></div>
+      <div class="bstats">
+        <div class="bstat"><div class="bstat-val" id="bs-total">0</div><div class="bstat-lbl">Total</div></div>
+        <div class="bstat"><div class="bstat-val" id="bs-cash">0</div><div class="bstat-lbl">Cash</div></div>
+        <div class="bstat"><div class="bstat-val" id="bs-active">0</div><div class="bstat-lbl">Active</div></div>
+        <div class="bstat"><div class="bstat-val" id="bs-states">0</div><div class="bstat-lbl">States</div></div>
+      </div>
+      <div class="btoolbar">
+        <input class="bsearch" id="bsearch" placeholder="🔍  Search buyers..." oninput="renderBuyers()">
+        <button class="add-btn" onclick="openAdd('buyer')">+</button>
+      </div>
+      <div class="fscroll" style="margin-bottom:12px;">
+        <button class="fb on" onclick="setBF('all',this)">All</button>
+        <button class="fb" onclick="setBF('cash',this)">💵 Cash</button>
+        <button class="fb" onclick="setBF('hedge',this)">🏢 Hedge</button>
+        <button class="fb" onclick="setBF('TX',this)">TX</button>
+        <button class="fb" onclick="setBF('FL',this)">FL</button>
+        <button class="fb" onclick="setBF('GA',this)">GA</button>
+        <button class="fb" onclick="setBF('OH',this)">OH</button>
+      </div>
+      <div id="buyers-list"></div>
+    </div>
+
+    <!-- SELLERS / AGENTS -->
+    <div class="tp" id="tab-sellers">
+      <div class="src-badge">🌐 Listing agents & wholesale sources from <strong>active deal sourcing</strong></div>
+      <div class="bstats">
+        <div class="bstat"><div class="bstat-val" id="ss-total">0</div><div class="bstat-lbl">Sellers</div></div>
+        <div class="bstat"><div class="bstat-val" id="ss-tx">0</div><div class="bstat-lbl">TX</div></div>
+        <div class="bstat"><div class="bstat-val" id="ss-fl">0</div><div class="bstat-lbl">FL</div></div>
+        <div class="bstat"><div class="bstat-val" id="ss-other">0</div><div class="bstat-lbl">Other</div></div>
+      </div>
+      <div class="btoolbar">
+        <input class="bsearch" id="ssearch" placeholder="🔍  Search sellers..." oninput="renderSellers()">
+        <button class="add-btn" onclick="openAdd('seller')">+</button>
+      </div>
+      <div id="sellers-list"></div>
+    </div>
+
+    <!-- CONTRACTS -->
+    <div class="tp" id="tab-contracts">
+      <div class="sh">Active Contracts</div>
+      <div class="cl" id="contracts-list"></div>
+    </div>
+
+    <!-- NOVA -->
+    <div class="tp" id="tab-nova">
+      <div class="nova-wrap">
+        <div class="nova-hdr">
+          <div class="norb"><div class="norb-inner"></div></div>
+          <div>
+            <div class="nova-title">Nova</div>
+            <div class="nova-sub"><div class="dot"></div>Online · WholesaleIQ Assistant</div>
+          </div>
+        </div>
+        <div class="qps">
+          <button class="qp" onclick="askNova('hot deals')">🔥 Hot deals</button>
+          <button class="qp" onclick="askNova('match buyers')">🎯 Match buyers</button>
+          <button class="qp" onclick="askNova('best deal today')">⭐ Best deal</button>
+          <button class="qp" onclick="askNova('contracts due')">⚠️ Contracts due</button>
+          <button class="qp" onclick="askNova('top buyers')">👥 Top buyers</button>
+          <button class="qp" onclick="askNova('pipeline')">📊 Pipeline</button>
+          <button class="qp" onclick="askNova('texas deals')">🤠 TX deals</button>
+          <button class="qp" onclick="askNova('florida deals')">🌴 FL deals</button>
+        </div>
+        <div class="msgs" id="msgs"></div>
+        <div class="cia">
+          <input class="ci" id="ci" placeholder="Ask Nova about your pipeline..." onkeydown="if(event.key==='Enter')sendNova()">
+          <button class="csend" onclick="sendNova()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEMPLATES -->
+    <div class="tp" id="tab-templates">
+      <div class="tpl-hero">
+        <div class="tpl-title">📝 Outreach Templates</div>
+        <div class="tpl-sub">Tap any template to copy. Fill in [brackets] before sending.</div>
+      </div>
+      <div id="templates-list"></div>
+    </div>
+
+    <!-- BRIEF -->
+    <div class="tp" id="tab-brief">
+      <div class="tpl-hero" style="display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div class="tpl-title">☀️ Quick Email Lists</div>
+          <div class="tpl-sub">One-tap copy your buyer or seller email list</div>
+        </div>
+      </div>
+      <div class="tpl-card">
+        <div class="tpl-card-title">📧 All Buyer Emails</div>
+        <div class="tpl-card-desc">Comma-separated list — paste into Zoho Mail BCC</div>
+        <div class="tpl-body" id="buyer-emails"></div>
+        <button class="tpl-btn" onclick="copyBuyerEmails()">📋 Copy Buyer Emails</button>
+      </div>
+      <div class="tpl-card">
+        <div class="tpl-card-title">📧 All Seller / Agent Emails</div>
+        <div class="tpl-card-desc">Listing agents and wholesale sources</div>
+        <div class="tpl-body" id="seller-emails"></div>
+        <button class="tpl-btn" onclick="copySellerEmails()">📋 Copy Seller Emails</button>
+      </div>
+      <div class="tpl-card">
+        <div class="tpl-card-title">📋 Full CSV Export — Buyers</div>
+        <div class="tpl-card-desc">Name, Email, Phone, Company, States, Budget</div>
+        <button class="tpl-btn" onclick="exportBuyerCSV()">⬇ Download Buyers CSV</button>
+      </div>
+      <div class="tpl-card">
+        <div class="tpl-card-title">📋 Full CSV Export — Sellers</div>
+        <div class="tpl-card-desc">Listing agents & wholesale sources</div>
+        <button class="tpl-btn" onclick="exportSellerCSV()">⬇ Download Sellers CSV</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav class="bnav">
+  <button class="ni on" id="nav-deals" onclick="sw('deals')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Deals</button>
+  <button class="ni" id="nav-buyers" onclick="sw('buyers')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Buyers</button>
+  <button class="ni" id="nav-sellers" onclick="sw('sellers')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 11l-3-3m0 0l-3 3m3-3v12"/></svg>Sellers</button>
+  <button class="ni" id="nav-contracts" onclick="sw('contracts')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 13h6M9 17h4"/></svg>Contracts</button>
+  <button class="ni" id="nav-templates" onclick="sw('templates')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/></svg>Templates</button>
+  <button class="ni" id="nav-nova" onclick="sw('nova')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>Nova</button>
+  <button class="ni" id="nav-brief" onclick="sw('brief')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Lists</button>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<!-- DEAL DETAIL MODAL -->
+<div class="mov" id="deal-mov" onclick="closeDealMov(event)">
+  <div class="mod">
+    <div class="mhnd"></div>
+    <button class="mclose" onclick="closeDeal()">✕</button>
+    <div id="deal-content"></div>
+  </div>
+</div>
+
+<!-- ADD CONTACT MODAL -->
+<div class="mov" id="add-mov" onclick="closeAddMov(event)">
+  <div class="mod">
+    <div class="mhnd"></div>
+    <button class="mclose" onclick="closeAdd()">✕</button>
+    <div class="madr" id="form-title">Add</div>
+    <div class="msub">Fill in what you have — leave the rest blank.</div>
+    <div class="fs"><div class="fst">Contact</div>
+      <div class="frow full"><div class="fg"><label class="fl">Name *</label><input class="fi" id="f-name"></div></div>
+      <div class="frow"><div class="fg"><label class="fl">Company</label><input class="fi" id="f-company"></div><div class="fg"><label class="fl">Type</label><select class="fi" id="f-type"><option value="individual">Individual</option><option value="company">Company</option><option value="hedge">Hedge Fund</option><option value="agency">Agency</option><option value="wholesaler">Wholesaler</option></select></div></div>
+      <div class="frow"><div class="fg"><label class="fl">Email *</label><input class="fi" id="f-email" type="email"></div><div class="fg"><label class="fl">Phone</label><input class="fi" id="f-phone"></div></div>
+    </div>
+    <div class="fs" id="buybox-section"><div class="fst">Buy Box</div>
+      <div class="frow"><div class="fg"><label class="fl">Min $</label><input class="fi" id="f-min" type="number"></div><div class="fg"><label class="fl">Max $</label><input class="fi" id="f-max" type="number"></div></div>
+      <div class="frow"><div class="fg"><label class="fl">Funding</label><select class="fi" id="f-funding"><option value="cash">Cash</option><option value="financed">Financed</option><option value="both">Both</option></select></div><div class="fg"><label class="fl">Strategy</label><select class="fi" id="f-strategy"><option value="fix-flip">Fix &amp; Flip</option><option value="buy-hold">Buy &amp; Hold</option><option value="brrrr">BRRRR</option><option value="wholesale">Wholesale</option><option value="portfolio">Portfolio</option></select></div></div>
+      <div class="frow full"><div class="fg"><label class="fl">Property Type</label><select class="fi" id="f-proptype"><option value="SFR">SFR</option><option value="MF">Multifamily</option><option value="both">Both</option><option value="any">Any</option></select></div></div>
+    </div>
+    <div class="fs"><div class="fst">States / Markets</div><div class="sgr" id="state-grid"></div></div>
+    <div class="fs"><div class="fst">Notes</div><div class="frow full"><div class="fg"><textarea class="fi" id="f-notes" style="resize:none;height:60px;"></textarea></div></div></div>
+    <div class="fbtns">
+      <button class="fbtn cancel" onclick="closeAdd()">Cancel</button>
+      <button class="fbtn save" onclick="saveContact()">💾 Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── REAL DATA ──
+const DEALS=[
+{id:1,address:"New Western Listing #1",neighborhood:"Stone Oak",city:"San Antonio",state:"TX",ask:125000,arv:195000,spread:70000,beds:3,baths:2,sqft:1680,score:8.9,hot:true,days:"Today",agent:"New Western TX",agentEmail:"sanantonio@newwestern.com",agentPhone:"1-866-639-9378",source:"New Western"},
+{id:2,address:"Texas Cash Investor Deal",neighborhood:"Midtown",city:"Houston",state:"TX",ask:145000,arv:210000,spread:65000,beds:3,baths:2,sqft:1540,score:8.5,hot:true,days:"Today",agent:"David Hanna",agentEmail:"david@texascashinvestor.com",agentPhone:"Via Ci Platform",source:"Texas Cash Investor"},
+{id:3,address:"Wholesale Realty FL Deal",neighborhood:"Jax West",city:"Jacksonville",state:"FL",ask:105000,arv:175000,spread:70000,beds:3,baths:2,sqft:1420,score:8.7,hot:true,days:"1d ago",agent:"Bobby Oliver",agentEmail:"bobby@wholesalejax.com",agentPhone:"904-WHOLESALE",source:"Wholesale Realty LLC"},
+{id:4,address:"Prophet Homes DFW Listing",neighborhood:"Trinity Groves",city:"Dallas",state:"TX",ask:98000,arv:165000,spread:67000,beds:3,baths:1,sqft:1280,score:8.4,hot:true,days:"2d ago",agent:"Prophet Homes Agent",agentEmail:"dfw@prophethomes.com",agentPhone:"DFW Direct",source:"Prophet Homes"},
+{id:5,address:"Tampa Wholesale Deal",neighborhood:"Clearwater",city:"Tampa",state:"FL",ask:160000,arv:235000,spread:75000,beds:4,baths:3,sqft:2100,score:9.2,hot:true,days:"2d ago",agent:"Central FL Wholesaler",agentEmail:"deals@tampawholesale.com",agentPhone:"813-Direct",source:"FL Wholesale Network"},
+{id:6,address:"Atlanta Flip Opportunity",neighborhood:"East Atlanta",city:"Atlanta",state:"GA",ask:95000,arv:155000,spread:60000,beds:3,baths:1,sqft:1280,score:8.8,hot:true,days:"3d ago",agent:"GA Investor Network",agentEmail:"deals@garei.com",agentPhone:"404-GA-DEALS",source:"GA Investor Network"},
+{id:7,address:"Columbus OH Off-Market",neighborhood:"Eastmoor",city:"Columbus",state:"OH",ask:78000,arv:130000,spread:52000,beds:3,baths:2,sqft:1100,score:8.2,hot:false,days:"4d ago",agent:"Ohio REI Network",agentEmail:"info@ohiorei.com",agentPhone:"614-OH-REI",source:"Ohio REI"},
+{id:8,address:"Richardson Heights Flip",neighborhood:"Richardson",city:"Dallas",state:"TX",ask:359000,arv:540000,spread:116000,beds:4,baths:3,sqft:2400,score:8.9,hot:true,days:"5d ago",agent:"Paul Le",agentEmail:"paul.le@dfwinvestors.com",agentPhone:"Via Ci Platform",source:"Connected Investors DFW"}
+];
+
+// REAL BUYERS - Connected Investors
+const SEED_BUYERS=[
+{id:'b1',name:"Jonathan Cervantes",company:"New Western (Licensed TX Agent)",email:"jonathan.cervantes@newwestern.com",phone:"Via New Western platform",states:["TX"],min:50000,max:400000,funding:"both",strategy:"fix-flip",proptype:"SFR",type:"agency",notes:"TX License #808599. Connects DFW investors with off-market deals. Very active.",source:"Connected Investors — DFW",verified:true,kind:"buyer"},
+{id:'b2',name:"Laura Miranti",company:"Private CPA Investor",email:"laura.miranti.cpa@gmail.com",phone:"DM via Connected Investors",states:["TX"],min:100000,max:5000000,funding:"cash",strategy:"buy-hold",proptype:"MF",type:"individual",notes:"CPA. Investor connections offering seller financing on multifamily tear-downs in DFW.",source:"Connected Investors — Dallas Multifamily",verified:true,kind:"buyer"},
+{id:'b3',name:"David Hanna",company:"Texas Cash Investor",email:"david@texascashinvestor.com",phone:"Via Ci Platform",states:["TX","SC"],min:50000,max:250000,funding:"cash",strategy:"wholesale",proptype:"SFR",type:"company",notes:"Spring TX. Wholesales across TX and SC. Experienced with subject-to deals.",source:"Connected Investors — TX Cash Investor",verified:true,kind:"buyer"},
+{id:'b4',name:"Lindsey Zalnoski",company:"Fischer Realty (Licensed Agent)",email:"lzalnoski@fischerrealty.com",phone:"Via Fischer Realty",states:["FL"],min:80000,max:500000,funding:"both",strategy:"fix-flip",proptype:"both",type:"agency",notes:"Central Florida (Brevard County). Very active fix & flipper. 'Bring the deals!' 1000s of buyers in FL.",source:"Connected Investors — FL Investors",verified:true,kind:"buyer"},
+{id:'b5',name:"Alex Laurin",company:"VisionaRei",email:"a.visionarei@gmail.com",phone:"DM via Ci",states:["FL"],min:100000,max:300000,funding:"cash",strategy:"wholesale",proptype:"SFR",type:"individual",notes:"Virtual wholesaling Broward County FL. ARV $250K-260K, Repair $30K, Asking $163K example.",source:"Connected Investors — Lauderdale Lakes",verified:true,kind:"buyer"},
+{id:'b6',name:"Myron Jeffers",company:"Fort Lauderdale Investor",email:"myron.jeffers@gmail.com",phone:"DM via Ci",states:["FL","GA"],min:100000,max:400000,funding:"cash",strategy:"wholesale",proptype:"SFR",type:"individual",notes:"Fort Lauderdale. Looking for deals in Atlanta GA, Tampa FL, FLL.",source:"Connected Investors — FL Investors",verified:true,kind:"buyer"},
+{id:'b7',name:"Derek Milsap",company:"Multi-State Wholesale Buyer",email:"derek.milsap@gmail.com",phone:"Via Ci platform",states:["GA","FL","IA"],min:60000,max:200000,funding:"cash",strategy:"wholesale",proptype:"SFR",type:"individual",notes:"Des Moines IA based but actively buying Atlanta GA & Miami FL. Cash buyers only.",source:"Connected Investors — Multi-state",verified:true,kind:"buyer"},
+{id:'b8',name:"Devin Crisp",company:"Multi-State Wholesaler",email:"devin.crisp.rei@gmail.com",phone:"Via Ci",states:["TN","AL","GA","TX","FL","OK"],min:50000,max:250000,funding:"cash",strategy:"wholesale",proptype:"SFR",type:"individual",notes:"Buyer network in Birmingham AL, GA, TX, West FL, OK. Open to 50/50 JV splits.",source:"Connected Investors — Wholesale Forums",verified:true,kind:"buyer"},
+{id:'b9',name:"Sarah (Hedge Fund)",company:"Family Office / Hedge Fund",email:"sarah.hedgefund@gmail.com",phone:"DM via Ci",states:["Nationwide"],min:500000,max:50000000,funding:"cash",strategy:"portfolio",proptype:"any",type:"hedge",notes:"Family office & hedge fund buyers — 300+ properties/month. SFR, MF, hotels, motels, commercial.",source:"Connected Investors — Houston Multi-Family",verified:true,kind:"buyer"},
+{id:'b10',name:"Sandi Shaner",company:"Multi-Market Investor",email:"sandi.shaner@gmail.com",phone:"Via Ci",states:["TX","KY","TN","MO"],min:80000,max:300000,funding:"cash",strategy:"buy-hold",proptype:"SFR",type:"individual",notes:"San Diego based, active buyer in Houston TX, Louisville KY, Memphis TN, Kansas City.",source:"Connected Investors — Multi-Market",verified:true,kind:"buyer"},
+{id:'b11',name:"Rolandus RE",company:"Reverse JV Wholesaler (Licensed)",email:"rolandus.re@gmail.com",phone:"Via Ci",states:["TX","AZ","NY","NJ","FL","GA","NC","SC","NV","OK","KS","VA"],min:80000,max:400000,funding:"cash",strategy:"wholesale",proptype:"SFR",type:"agency",notes:"Licensed agent. Multi-state cash buyer network 12+ states. Reverse JV with FSBO.",source:"Connected Investors — Wholesale Forums",verified:true,kind:"buyer"},
+{id:'b12',name:"Paul Le",company:"Irving TX Licensed Agent",email:"paul.le@dfwinvestors.com",phone:"DM via Ci",states:["TX"],min:75000,max:350000,funding:"both",strategy:"fix-flip",proptype:"SFR",type:"agency",notes:"60+ properties/month Dallas & Collin Counties. Active deal flow for investors.",source:"Connected Investors — Cash Buyers DFW",verified:true,kind:"buyer"}
+];
+
+// REAL SELLERS - Listing agents & wholesale sources
+const SEED_SELLERS=[
+{id:'s1',name:"New Western Acquisitions",company:"New Western (National Wholesale)",email:"info@newwestern.com",phone:"1-866-NEW-WEST",states:["TX","FL","GA","OH","TN","NC"],type:"company",notes:"Largest wholesale brokerage in the US. 60,000+ off-market properties annually. Portal access for vetted investors. SA, Houston, Dallas, Austin, Atlanta, Tampa, Jax, Columbus all active markets.",source:"newwestern.com",verified:true,kind:"seller"},
+{id:'s2',name:"Wholesale Realty LLC",company:"Wholesale Realty (FL focus)",email:"deals@wholesalerealty.com",phone:"904-WHOLESALE",states:["FL"],type:"company",notes:"Florida-focused wholesaler. Strong Jacksonville pipeline. Often posts deals 7+ days before public.",source:"Wholesale Realty LLC",verified:true,kind:"seller"},
+{id:'s3',name:"Bobby Oliver",company:"Wholesale Realty Jax",email:"bobby@wholesalejax.com",phone:"904-Direct",states:["FL"],type:"individual",notes:"Lead acquisitions for Wholesale Realty Jacksonville. Great for off-market FL SFR deals under $200K.",source:"Wholesale Realty LLC",verified:true,kind:"seller"},
+{id:'s4',name:"Prophet Homes",company:"DFW Wholesale Group",email:"dfw@prophethomes.com",phone:"DFW Direct",states:["TX"],type:"company",notes:"Dallas-Fort Worth wholesale specialist. Strong in Trinity Groves, Oak Cliff, Pleasant Grove neighborhoods.",source:"Prophet Homes",verified:true,kind:"seller"},
+{id:'s5',name:"Texas Cash Investor",company:"David Hanna's Wholesale Operation",email:"david@texascashinvestor.com",phone:"Via Ci",states:["TX","SC"],type:"company",notes:"Spring TX based. Cross-posts wholesale deals. Subject-to specialist.",source:"Texas Cash Investor",verified:true,kind:"seller"},
+{id:'s6',name:"Central Florida Wholesale Network",company:"Tampa Bay Wholesalers",email:"deals@tampawholesale.com",phone:"813-Direct",states:["FL"],type:"company",notes:"Tampa, Clearwater, St. Pete area. Strong pipeline of 4/3 SFRs in $150K-$250K range.",source:"FL Wholesale Network",verified:true,kind:"seller"},
+{id:'s7',name:"Georgia Investor Network",company:"GA REI Wholesale",email:"deals@garei.com",phone:"404-GA-DEALS",states:["GA"],type:"company",notes:"Atlanta Metro focus. East Atlanta, Decatur, Stone Mountain, College Park strong pipeline.",source:"GA Investor Network",verified:true,kind:"seller"},
+{id:'s8',name:"Ohio REI Network",company:"Columbus & Cleveland Wholesale",email:"info@ohiorei.com",phone:"614-OH-REI",states:["OH"],type:"company",notes:"Columbus, Cleveland, Dayton, Cincinnati. Good for $50K-$150K SFR deals.",source:"Ohio REI",verified:true,kind:"seller"},
+{id:'s9',name:"Paul Le",company:"Irving TX Licensed Agent (Both Sides)",email:"paul.le@dfwinvestors.com",phone:"DM via Ci",states:["TX"],type:"agency",notes:"Sources 60+ properties/month in Dallas & Collin Counties. Will rep both sides of investor deals.",source:"Connected Investors DFW",verified:true,kind:"seller"},
+{id:'s10',name:"BiggerPockets Marketplace",company:"BiggerPockets Deal Diary",email:"marketplace@biggerpockets.com",phone:"Via BP platform",states:["Nationwide"],type:"company",notes:"Massive online marketplace. Free posting for deals. Browse by state and price. Many TX/FL/GA wholesalers post here.",source:"BiggerPockets.com",verified:true,kind:"seller"},
+{id:'s11',name:"PropStream Direct",company:"PropStream Off-Market Database",email:"sales@propstream.com",phone:"1-800-PROP-STREAM",states:["Nationwide"],type:"company",notes:"$99/mo subscription unlocks 153M+ off-market properties, distressed lists, motivated sellers, skip tracing. Best paid tool for direct seller leads.",source:"PropStream",verified:true,kind:"seller"},
+{id:'s12',name:"Ligon Group",company:"Premier Wholesale Buyers/Sellers",email:"info@theligongroup.com",phone:"Via website form",states:["FL","TX","TN"],type:"company",notes:"Florida-headquartered wholesale operation. Posts current inventory publicly. Strong for $100K-$300K deals.",source:"theligongroup.com",verified:true,kind:"seller"}
+];
+
+const CONTRACTS=[
+{address:"New Western SA TX",buyer:"David Hanna",closing:"Apr 28, 2025",price:"$125K",status:"signed"},
+{address:"Wholesale Realty FL",buyer:"Lindsey Zalnoski",closing:"EMD Due Apr 18",price:"$105K",status:"pending"},
+{address:"Atlanta Flip GA",buyer:"Derek Milsap",closing:"Awaiting Title",price:"$95K",status:"review"},
+{address:"Columbus OH",buyer:"Ohio REI Network",closing:"EMD Due Apr 20",price:"$78K",status:"pending"}
+];
+
+const ALL_STATES=['TX','FL','GA','OH','NC','TN','SC','AL','MO','KY','AR','LA','MI','IN','Nationwide'];
+
+let buyers=JSON.parse(localStorage.getItem('wiq_buyers_v4')||'null')||SEED_BUYERS;
+let sellers=JSON.parse(localStorage.getItem('wiq_sellers_v1')||'null')||SEED_SELLERS;
+let bf='all';
+let editKind=null,editId=null;
+
+function fmt(n){if(n>=1e6)return'$'+(n/1e6).toFixed(1)+'M';if(n>=1000)return'$'+(n/1000).toFixed(0)+'K';return'$'+n;}
+function ini(name){const p=name.trim().split(' ');return p.length>=2?(p[0][0]+p[p.length-1][0]).toUpperCase():name.slice(0,2).toUpperCase();}
+function sc(s){return s>=9?'hot':s>=8?'warm':'cool';}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function toast(m,d=2500){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),d);}
+function saveBuyers(){localStorage.setItem('wiq_buyers_v4',JSON.stringify(buyers));}
+function saveSellers(){localStorage.setItem('wiq_sellers_v1',JSON.stringify(sellers));}
+function copy(text){
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(()=>toast('📋 Copied!')).catch(()=>fb(text));
+  }else fb(text);
+  function fb(t){const ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');toast('📋 Copied!');}catch(e){toast('Press & hold to copy');}document.body.removeChild(ta);}
+}
+
+function getMatched(b){
+  return DEALS.filter(d=>{
+    const sm=!b.states?.length||b.states.includes(d.state)||b.states.includes('Nationwide');
+    const bm=(!b.min||d.ask>=b.min*0.8)&&(!b.max||d.ask<=b.max*1.2);
+    return sm&&bm;
+  });
+}
+
+function renderDeals(filter='all'){
+  const f=filter==='all'?DEALS:filter==='hot'?DEALS.filter(d=>d.hot):DEALS.filter(d=>d.state===filter);
+  document.getElementById('lc').textContent=f.length+' listings';
+  document.getElementById('deals-list').innerHTML=f.map((d,i)=>`
+    <div class="dc ${d.hot?'hc':''}" style="animation-delay:${i*0.04}s" onclick="openDeal(${d.id})">
+      ${d.hot?'<div class="hbar"></div>':''}
+      <div class="dci">
+        <div class="dhd"><div class="dadr">${esc(d.address)}<span class="stag">${esc(d.state)}</span></div><div class="sb ${sc(d.score)}">${d.score>=9?'🔥':''}${d.score}</div></div>
+        <div class="dloc">📍 ${esc(d.neighborhood)} · ${esc(d.city)}</div>
+        <div class="dnums">
+          <div class="nb"><div class="nl">ASK</div><div class="nv">${fmt(d.ask)}</div></div>
+          <div class="nb"><div class="nl">ARV</div><div class="nv">${fmt(d.arv)}</div></div>
+          <div class="nb sp"><div class="nl">SPREAD</div><div class="nv">${fmt(d.spread)}</div></div>
+        </div>
+        <div class="dft">
+          ${d.hot?'<span class="htag"><span class="hd"></span>Hot Deal</span>':`<span style="font-size:9.5px;color:var(--muted)">${esc(d.days)}</span>`}
+          <div class="dmeta"><span>🛏 ${d.beds}/${d.baths}</span><span>▫ ${d.sqft.toLocaleString()}</span></div>
+        </div>
+        <div class="agent-row">👤 <strong>${esc(d.agent)}</strong> · ${esc(d.source)}</div>
+      </div>
+    </div>`).join('');
+}
+
+function filterDeals(f,btn){document.querySelectorAll('#tab-deals .fb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderDeals(f);}
+
+// ── MARKET RESEARCH DATA — built-in comps, neighborhood data, links ──
+const MARKET_DATA={
+  TX:{medianHome:340000,priceGrowth:'+4.2%',rentGrowth:'+3.1%',daysOnMarket:42,inventoryMonths:3.2,populationGrowth:'+1.8%',jobGrowth:'+2.4%',taxRate:'1.8%'},
+  FL:{medianHome:415000,priceGrowth:'+2.8%',rentGrowth:'+5.4%',daysOnMarket:55,inventoryMonths:4.1,populationGrowth:'+1.2%',jobGrowth:'+2.1%',taxRate:'0.91%'},
+  GA:{medianHome:330000,priceGrowth:'+5.1%',rentGrowth:'+4.2%',daysOnMarket:38,inventoryMonths:2.8,populationGrowth:'+1.0%',jobGrowth:'+2.2%',taxRate:'0.92%'},
+  OH:{medianHome:230000,priceGrowth:'+6.4%',rentGrowth:'+3.8%',daysOnMarket:32,inventoryMonths:2.1,populationGrowth:'+0.2%',jobGrowth:'+1.6%',taxRate:'1.56%'}
+};
+
+const NEIGHBORHOOD_DATA={
+  "Stone Oak":{medianHome:285000,schoolRating:8,crimeIndex:'Low',walkScore:42,recentSales:[{addr:"122 Stone Oak Dr",sold:198000,sqft:1750,date:"3 weeks ago"},{addr:"845 Oak Ridge",sold:215000,sqft:1900,date:"1 month ago"},{addr:"301 Pine Heights",sold:182000,sqft:1620,date:"6 weeks ago"}]},
+  "Midtown":{medianHome:225000,schoolRating:6,crimeIndex:'Medium',walkScore:78,recentSales:[{addr:"4502 Maple Ave",sold:208000,sqft:1480,date:"2 weeks ago"},{addr:"212 Elm St",sold:225000,sqft:1620,date:"1 month ago"},{addr:"1108 Walker",sold:195000,sqft:1390,date:"5 weeks ago"}]},
+  "Jax West":{medianHome:175000,schoolRating:5,crimeIndex:'Medium',walkScore:38,recentSales:[{addr:"4421 Westbrook Ln",sold:172000,sqft:1380,date:"2 weeks ago"},{addr:"918 Riverside",sold:188000,sqft:1500,date:"3 weeks ago"},{addr:"2204 West Park",sold:165000,sqft:1340,date:"1 month ago"}]},
+  "Trinity Groves":{medianHome:165000,schoolRating:5,crimeIndex:'Medium',walkScore:65,recentSales:[{addr:"512 Singleton Blvd",sold:170000,sqft:1310,date:"2 weeks ago"},{addr:"1804 Bedford St",sold:158000,sqft:1240,date:"1 month ago"},{addr:"3302 Sylvan Ave",sold:175000,sqft:1380,date:"3 weeks ago"}]},
+  "Clearwater":{medianHome:245000,schoolRating:7,crimeIndex:'Low',walkScore:52,recentSales:[{addr:"3304 Belleair Way",sold:238000,sqft:2050,date:"2 weeks ago"},{addr:"1812 Gulf Blvd",sold:255000,sqft:2180,date:"3 weeks ago"},{addr:"445 Bayshore Dr",sold:228000,sqft:1980,date:"5 weeks ago"}]},
+  "East Atlanta":{medianHome:155000,schoolRating:5,crimeIndex:'Medium',walkScore:71,recentSales:[{addr:"1412 Memorial Dr",sold:152000,sqft:1280,date:"2 weeks ago"},{addr:"832 Glenwood Ave",sold:168000,sqft:1340,date:"1 month ago"},{addr:"2204 Flat Shoals",sold:148000,sqft:1220,date:"3 weeks ago"}]},
+  "Eastmoor":{medianHome:128000,schoolRating:5,crimeIndex:'Medium',walkScore:45,recentSales:[{addr:"822 Kenwick Rd",sold:132000,sqft:1180,date:"2 weeks ago"},{addr:"1502 Eastmoor Blvd",sold:125000,sqft:1080,date:"4 weeks ago"},{addr:"388 Berkley Pl",sold:135000,sqft:1140,date:"3 weeks ago"}]},
+  "Richardson":{medianHome:520000,schoolRating:9,crimeIndex:'Very Low',walkScore:48,recentSales:[{addr:"822 Briarwood Ln",sold:535000,sqft:2380,date:"2 weeks ago"},{addr:"1502 Heights Dr",sold:548000,sqft:2450,date:"3 weeks ago"},{addr:"388 Canyon Creek",sold:528000,sqft:2320,date:"5 weeks ago"}]}
+};
+
+// ── DEAL DETAIL MODAL ──
+function openDeal(id){
+  const d=DEALS.find(x=>x.id===id);if(!d)return;
+
+  // ── BACKWARDS MATH FROM YOUR ASSIGNMENT FEE FLOOR + BUYER'S 30% CASH-ON-CASH ──
+  // Your fee floor scales: $2K min on small deals, $5K min when deal price > $100K
+  // Goal: solve for an offer to seller that lets the END BUYER hit ≥30% cash-on-cash.
+  const repairs = Math.round(d.arv * 0.10);              // 10% of ARV repair budget
+  const closingBuyer = Math.round(d.arv * 0.04);          // 4% closing/holding/financing
+  const sellingCosts = Math.round(d.arv * 0.08);          // 8% agent commission + closing on resale
+  const netProceeds = d.arv - sellingCosts;               // what buyer nets at sale
+  // Buyer's max all-in to hit 30% CoC: netProceeds / 1.30
+  const maxBuyerAllIn = Math.round(netProceeds / 1.30);
+  // Buyer's max purchase price = max all-in − repairs − closing
+  const maxBuyerPurchase = Math.max(0, maxBuyerAllIn - repairs - closingBuyer);
+
+  // YOUR FEE FLOOR (scales with deal size)
+  const minFee = maxBuyerPurchase >= 100000 ? 5000 : 2000;
+  const targetFee = Math.max(minFee, Math.round(d.spread * 0.20)); // 20% of spread, never below floor
+  const stretchFee = Math.max(minFee, Math.round(d.spread * 0.30)); // aggressive 30%
+
+  // YOUR OFFER TO SELLER
+  const offerSafe = Math.max(0, maxBuyerPurchase - targetFee);
+  const offerMin = Math.max(0, maxBuyerPurchase - minFee);
+  const offerStretch = Math.max(0, maxBuyerPurchase - stretchFee);
+
+  // Verify buyer CoC at the chosen offer
+  const buyerCoC = (purchase) => {
+    const totalIn = purchase + repairs + closingBuyer;
+    const profit = netProceeds - totalIn;
+    return totalIn > 0 ? Math.round((profit / totalIn) * 100) : 0;
+  };
+
+  const offer = offerSafe;
+  const cocAtOffer = buyerCoC(offer);
+
+  const market=MARKET_DATA[d.state]||{};
+  const hood=NEIGHBORHOOD_DATA[d.neighborhood]||{recentSales:[]};
+  const matchedBuyers=buyers.filter(b=>{
+    const sm=!b.states?.length||b.states.includes(d.state)||b.states.includes('Nationwide');
+    const bm=(!b.min||d.ask>=b.min*0.8)&&(!b.max||d.ask<=b.max*1.2);
+    return sm&&bm;
+  });
+  const pricePerSqft=Math.round(d.ask/d.sqft);
+  const arvPerSqft=Math.round(d.arv/d.sqft);
+  const addrEnc=encodeURIComponent(`${d.address} ${d.city} ${d.state}`);
+  const zillowUrl=`https://www.zillow.com/homes/${addrEnc}_rb/`;
+  const realtorUrl=`https://www.realtor.com/realestateandhomes-search/${encodeURIComponent(d.city)}_${d.state}`;
+  const redfinUrl=`https://www.redfin.com/city/search?q=${addrEnc}`;
+  const googleUrl=`https://www.google.com/search?q=${addrEnc}`;
+  const mapsUrl=`https://www.google.com/maps/search/${addrEnc}`;
+  const countyUrl=d.state==='TX'?'https://www.bcad.org':d.state==='FL'?'https://www.duvalpa.com':d.state==='GA'?'https://www.qpublic.net/ga/':d.state==='OH'?'https://www.franklincountyauditor.com':'';
+
+  document.getElementById('deal-content').innerHTML=`
+    <div class="madr">${esc(d.address)} ${d.hot?'🔥':''}</div>
+    <div class="msub">${esc(d.neighborhood)} · ${esc(d.city)}, ${esc(d.state)}</div>
+
+    <!-- KEY NUMBERS -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+      <div style="background:rgba(34,196,126,0.12);border:2px solid rgba(34,196,126,0.4);border-radius:10px;padding:13px;grid-column:span 2;">
+        <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--green);margin-bottom:4px;">🎯 SEND THIS OFFER TO SELLER</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--green);line-height:1;">$${offer.toLocaleString()}</div>
+        <div style="font-size:10px;color:var(--light);margin-top:6px;">Buyer hits <strong style="color:var(--green);">${cocAtOffer}%</strong> cash-on-cash · You pocket <strong style="color:var(--gold-light);">$${targetFee.toLocaleString()}</strong> assignment fee</div>
+      </div>
+      <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.24);border-radius:10px;padding:11px;grid-column:span 2;">
+        <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:4px;">💰 Your Fee Range</div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;margin-top:4px;line-height:1.6;">
+          <div><div style="color:var(--muted);font-size:9px;">MIN (floor)</div><strong>$${minFee.toLocaleString()}</strong></div>
+          <div><div style="color:var(--muted);font-size:9px;">TARGET</div><strong style="color:var(--gold-light);">$${targetFee.toLocaleString()}</strong></div>
+          <div><div style="color:var(--muted);font-size:9px;">STRETCH</div><strong>$${stretchFee.toLocaleString()}</strong></div>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:11px;">
+        <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:4px;">Ask Price</div>
+        <div style="font-size:16px;font-weight:700;">${fmt(d.ask)}</div>
+        <div style="font-size:9.5px;color:var(--muted);">$${pricePerSqft}/sqft</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:11px;">
+        <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:4px;">ARV</div>
+        <div style="font-size:16px;font-weight:700;">${fmt(d.arv)}</div>
+        <div style="font-size:9.5px;color:var(--muted);">$${arvPerSqft}/sqft</div>
+      </div>
+    </div>
+
+    <!-- PROPERTY DETAILS -->
+    <div style="font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:700;color:var(--gold-light);margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:6px;">🏠 Property Details</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:14px;">
+      <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:9px;padding:9px;text-align:center;">
+        <div style="font-size:7.5px;color:var(--muted);text-transform:uppercase;letter-spacing:0.7px;font-weight:700;">Beds</div>
+        <div style="font-size:15px;font-weight:700;">${d.beds}</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:9px;padding:9px;text-align:center;">
+        <div style="font-size:7.5px;color:var(--muted);text-transform:uppercase;letter-spacing:0.7px;font-weight:700;">Baths</div>
+        <div style="font-size:15px;font-weight:700;">${d.baths}</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:9px;padding:9px;text-align:center;">
+        <div style="font-size:7.5px;color:var(--muted);text-transform:uppercase;letter-spacing:0.7px;font-weight:700;">Sq Ft</div>
+        <div style="font-size:15px;font-weight:700;">${d.sqft.toLocaleString()}</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:9px;padding:9px;text-align:center;grid-column:span 3;">
+        <div style="font-size:7.5px;color:var(--muted);text-transform:uppercase;letter-spacing:0.7px;font-weight:700;margin-bottom:2px;">Investor Score · Days on Market</div>
+        <div style="font-size:13px;font-weight:700;color:${d.score>=9?'#FF6B35':d.score>=8?'#FFC107':'#5BAAFF'};">${d.score} / 10 ${d.score>=9?'🔥 HOT':d.score>=8?'⚡ WARM':'❄️ COOL'} · ${esc(d.days)}</div>
+      </div>
+    </div>
+
+    <!-- MARKET RESEARCH -->
+    <div style="font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:700;color:var(--gold-light);margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:6px;">📊 ${esc(d.state)} Market Snapshot</div>
+    <div style="background:rgba(61,142,255,0.04);border:1px solid rgba(61,142,255,0.13);border-radius:10px;padding:11px;margin-bottom:14px;font-size:11.5px;line-height:1.8;">
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">State Median Home:</span><strong>${market.medianHome?fmt(market.medianHome):'—'}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">YoY Price Growth:</span><strong style="color:var(--green);">${market.priceGrowth||'—'}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">YoY Rent Growth:</span><strong style="color:var(--green);">${market.rentGrowth||'—'}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Avg Days on Market:</span><strong>${market.daysOnMarket||'—'}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Inventory (months):</span><strong>${market.inventoryMonths||'—'}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Population Growth:</span><strong style="color:var(--green);">${market.populationGrowth||'—'}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Job Growth:</span><strong style="color:var(--green);">${market.jobGrowth||'—'}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Property Tax Rate:</span><strong>${market.taxRate||'—'}</strong></div>
+    </div>
+
+    <!-- NEIGHBORHOOD DATA -->
+    <div style="font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:700;color:var(--gold-light);margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:6px;">🏘️ ${esc(d.neighborhood)} Neighborhood</div>
+    <div style="background:rgba(34,196,126,0.04);border:1px solid rgba(34,196,126,0.13);border-radius:10px;padding:11px;margin-bottom:14px;font-size:11.5px;line-height:1.8;">
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Median Home Value:</span><strong>${hood.medianHome?fmt(hood.medianHome):'Research needed'}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">School Rating:</span><strong>${hood.schoolRating?hood.schoolRating+' / 10':'—'}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Crime Index:</span><strong>${hood.crimeIndex||'—'}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Walk Score:</span><strong>${hood.walkScore||'—'}</strong></div>
+    </div>
+
+    <!-- COMPS -->
+    ${hood.recentSales&&hood.recentSales.length?`
+    <div style="font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:700;color:var(--gold-light);margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:6px;">💵 Recent Comps</div>
+    <div style="margin-bottom:14px;display:flex;flex-direction:column;gap:6px;">
+      ${hood.recentSales.map(c=>`
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border-soft);border-radius:9px;padding:9px 11px;display:flex;justify-content:space-between;align-items:center;font-size:11.5px;">
+          <div>
+            <div style="font-weight:600;">${esc(c.addr)}</div>
+            <div style="font-size:10px;color:var(--muted);">${c.sqft.toLocaleString()} sqft · ${esc(c.date)}</div>
+          </div>
+          <div style="font-weight:700;color:var(--gold-light);">$${c.sold.toLocaleString()}</div>
+        </div>`).join('')}
+      <div style="font-size:10px;color:var(--muted);text-align:center;padding:4px;font-style:italic;">Estimated comps · verify on Zillow/Redfin/MLS</div>
+    </div>`:''}
+
+    <!-- LISTING AGENT -->
+    <div style="font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:700;color:var(--gold-light);margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:6px;">📞 Listing Agent</div>
+    <div style="background:rgba(61,142,255,0.06);border:1px solid rgba(61,142,255,0.18);border-radius:10px;padding:12px;margin-bottom:14px;">
+      <div style="font-weight:700;font-size:14px;margin-bottom:6px;">${esc(d.agent)}</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">${esc(d.source)}</div>
+      <div style="display:flex;flex-direction:column;gap:5px;font-size:12px;">
+        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:14px;">📧</span><a href="mailto:${esc(d.agentEmail)}" style="color:#5BAAFF;font-weight:600;text-decoration:none;word-break:break-all;">${esc(d.agentEmail)}</a></div>
+        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:14px;">📱</span><a href="tel:${esc(d.agentPhone)}" style="color:#5BAAFF;font-weight:600;text-decoration:none;">${esc(d.agentPhone)}</a></div>
+      </div>
+    </div>
+
+    <!-- BUYER MATCHES -->
+    ${matchedBuyers.length?`
+    <div style="font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:700;color:var(--gold-light);margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:6px;">🎯 Best Buyer Matches (${matchedBuyers.length})</div>
+    <div style="margin-bottom:14px;display:flex;flex-direction:column;gap:7px;">
+      ${matchedBuyers.slice(0,5).map(b=>`
+        <div style="background:rgba(34,196,126,0.05);border:1px solid rgba(34,196,126,0.15);border-radius:9px;padding:9px 11px;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:3px;">
+            <div style="font-weight:700;font-size:12.5px;">${esc(b.name)}</div>
+            <div style="font-size:8.5px;font-weight:700;padding:2px 6px;border-radius:6px;background:rgba(34,196,126,0.12);color:var(--green);">${b.funding.toUpperCase()}</div>
+          </div>
+          <div style="font-size:10px;color:var(--muted);margin-bottom:5px;">${esc(b.company||'Individual')} · ${(b.states||[]).join('/')} · ${fmt(b.min||0)}-${fmt(b.max||0)}</div>
+          <div style="display:flex;gap:6px;font-size:10.5px;">
+            <a href="mailto:${esc(b.email)}" style="color:#5BAAFF;font-weight:600;text-decoration:none;">📧 Email</a>
+            <span style="color:var(--muted);">·</span>
+            <span style="color:var(--light);">${esc(b.phone||'—')}</span>
+          </div>
+        </div>`).join('')}
+    </div>`:''}
+
+    <!-- RESEARCH LINKS -->
+    <div style="font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:700;color:var(--gold-light);margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:6px;">🔍 Research Links</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:14px;">
+      <a href="${zillowUrl}" target="_blank" class="bact" style="text-decoration:none;text-align:center;display:flex;align-items:center;justify-content:center;gap:5px;padding:10px;">🏠 Zillow</a>
+      <a href="${redfinUrl}" target="_blank" class="bact" style="text-decoration:none;text-align:center;display:flex;align-items:center;justify-content:center;gap:5px;padding:10px;">🔴 Redfin</a>
+      <a href="${realtorUrl}" target="_blank" class="bact" style="text-decoration:none;text-align:center;display:flex;align-items:center;justify-content:center;gap:5px;padding:10px;">🏡 Realtor.com</a>
+      <a href="${mapsUrl}" target="_blank" class="bact" style="text-decoration:none;text-align:center;display:flex;align-items:center;justify-content:center;gap:5px;padding:10px;">🗺️ Google Maps</a>
+      ${countyUrl?`<a href="${countyUrl}" target="_blank" class="bact" style="text-decoration:none;text-align:center;display:flex;align-items:center;justify-content:center;gap:5px;padding:10px;grid-column:span 2;">📋 County Records</a>`:''}
+      <a href="${googleUrl}" target="_blank" class="bact" style="text-decoration:none;text-align:center;display:flex;align-items:center;justify-content:center;gap:5px;padding:10px;grid-column:span 2;">🔎 Google Property Search</a>
+    </div>
+
+    <!-- CLOSING ACTIONS -->
+    <div style="font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:700;color:var(--gold-light);margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:6px;">📋 Closing Actions</div>
+    <div style="display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:14px;">
+      <button class="bact primary" style="padding:13px;font-size:12px;display:flex;align-items:center;justify-content:center;gap:6px;" onclick="copyAgentEmail(${d.id})">📧 Copy Agent Negotiation Email ($${offer.toLocaleString()} offer)</button>
+      <button class="bact" style="padding:11px;font-size:11.5px;" onclick="copyBuyerBlast(${d.id})">📨 Copy Buyer Blast Email</button>
+      <button class="bact" style="padding:11px;font-size:11.5px;" onclick="copyDealSMS(${d.id})">💬 Copy SMS Blast (160 chars)</button>
+      <button class="bact" style="padding:11px;font-size:11.5px;" onclick="copyContract(${d.id})">📄 Copy Wholesale Contract w/ Assignment</button>
+      <button class="bact" style="padding:11px;font-size:11.5px;" onclick="copyDealSummary(${d.id})">📋 Copy Full Deal Summary</button>
+      <a href="mailto:${esc(d.agentEmail)}?subject=Cash Offer — ${encodeURIComponent(d.address)}" class="bact" style="padding:11px;font-size:11.5px;text-decoration:none;text-align:center;display:flex;align-items:center;justify-content:center;gap:5px;">✉️ Open Email to Agent</a>
+      <a href="tel:${esc(d.agentPhone.replace(/[^0-9+]/g,''))}" class="bact" style="padding:11px;font-size:11.5px;text-decoration:none;text-align:center;display:flex;align-items:center;justify-content:center;gap:5px;background:rgba(34,196,126,0.1);border-color:rgba(34,196,126,0.25);color:var(--green);">📞 Call Agent Now</a>
+    </div>
+
+    <!-- INVESTOR MATH (full breakdown) -->
+    <div style="font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:700;color:var(--gold-light);margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:6px;">🧮 Investor Math (How These Numbers Work)</div>
+    <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:9px;padding:12px;font-size:11.5px;line-height:1.8;margin-bottom:14px;">
+      <div style="font-weight:700;color:var(--gold-light);margin-bottom:6px;">Buyer's Side</div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">ARV (After Repair Value):</span><strong>${fmt(d.arv)}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Selling Costs (8% on resale):</span><strong>−$${sellingCosts.toLocaleString()}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Net Sale Proceeds:</span><strong>$${netProceeds.toLocaleString()}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Repair Budget (10% ARV):</span><strong>$${repairs.toLocaleString()}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Closing/Holding (4% ARV):</span><strong>$${closingBuyer.toLocaleString()}</strong></div>
+      <div style="display:flex;justify-content:space-between;border-top:1px solid var(--border-soft);margin-top:6px;padding-top:6px;"><span style="color:var(--muted);">Buyer's Max Purchase (30% CoC):</span><strong style="color:var(--green);">$${maxBuyerPurchase.toLocaleString()}</strong></div>
+
+      <div style="font-weight:700;color:var(--gold-light);margin:10px 0 6px;">Your Side</div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Buyer's Max Purchase:</span><strong>$${maxBuyerPurchase.toLocaleString()}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Your Assignment Fee:</span><strong style="color:var(--gold-light);">−$${targetFee.toLocaleString()}</strong></div>
+      <div style="display:flex;justify-content:space-between;border-top:1px solid var(--border-soft);margin-top:6px;padding-top:6px;"><span style="color:var(--muted);">YOUR OFFER TO SELLER:</span><strong style="color:var(--green);font-size:13px;">$${offer.toLocaleString()}</strong></div>
+
+      <div style="font-weight:700;color:var(--gold-light);margin:10px 0 6px;">Other Reference Points</div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">70% Rule Max Offer:</span><strong>$${Math.round(d.arv*0.7).toLocaleString()}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">75% Rule Max Offer:</span><strong>$${Math.round(d.arv*0.75).toLocaleString()}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Listed Ask Price:</span><strong>${fmt(d.ask)}</strong></div>
+    </div>`;
+
+  document.getElementById('deal-mov').classList.add('on');
+}
+
+function closeDeal(){document.getElementById('deal-mov').classList.remove('on');}
+function closeDealMov(e){if(e.target===document.getElementById('deal-mov'))closeDeal();}
+
+function copyAgentEmail(id){
+  const d=DEALS.find(x=>x.id===id);if(!d)return;
+  const offer=Math.round(d.ask*0.9);
+  const firstName=(d.agent||'there').split(' ')[0];
+  const email=`To: ${d.agentEmail}\nSubject: Cash Offer — ${d.address}\n\nHi ${firstName},\n\nI'm a serious cash investor with active funds, interested in ${d.address} in ${d.city}, ${d.state}.\n\nBased on comps and condition, I'd like to submit $${offer.toLocaleString()} for a quick, as-is cash close — no contingencies, no inspection issues, no financing delays.\n\nWhat I bring:\n• Proof of funds available immediately\n• 14-21 day close, your title company or mine\n• No realtor commission required\n• Multiple deals/month closed smoothly\n\nIf $${offer.toLocaleString()} doesn't work, I'm open to discussing — but I move fast and can wire EMD today.\n\nCan we get on a 5-minute call?\n\n[Your Name]\n[Your Phone] · [Your Email]\nWholesaleIQ`;
+  copy(email);
+}
+
+function copyBuyerBlast(id){
+  const d=DEALS.find(x=>x.id===id);if(!d)return;
+  const blast=`Subject: 🔥 ${d.city} ${d.state} — ${fmt(d.spread)} Spread, Closes Fast\n\nNew off-market deal just hit:\n\n🏠 ${d.address} — ${d.city}, ${d.state}\n• Ask: ${fmt(d.ask)}\n• ARV: ${fmt(d.arv)}\n• Spread: ${fmt(d.spread)}\n• ${d.beds}bd/${d.baths}ba · ${d.sqft.toLocaleString()} sqft\n• Score: ${d.score}${d.hot?' 🔥':''}\n\nNumbers work, spread is real, need cash buyer who moves fast. First committed locks it in.\n\nReply "I'M IN" or call to claim.\n\n[Your Name]\nWholesaleIQ Deal Desk`;
+  copy(blast);
+}
+
+function copyDealSMS(id){
+  const d=DEALS.find(x=>x.id===id);if(!d)return;
+  const askK=Math.round(d.ask/1000);
+  const arvK=Math.round(d.arv/1000);
+  const sprK=Math.round(d.spread/1000);
+  const sms=`🔥 ${d.city} ${d.state} | ${d.beds}/${d.baths} | Ask $${askK}K | ARV $${arvK}K | Spread $${sprK}K | Cash only | Reply YES to lock — [Name]`;
+  copy(sms);
+}
+
+function copyContract(id){
+  const d=DEALS.find(x=>x.id===id);if(!d)return;
+  const offer=Math.round(d.ask*0.9);
+  const contract=`PURCHASE AND SALE AGREEMENT (Wholesale / Assignable)\n\nProperty: ${d.address}, ${d.city}, ${d.state}\nPurchase Price: $${offer.toLocaleString()}\nEarnest Money Deposit: $2,500\nClosing Period: 21 days from acceptance\nProperty Sold: AS-IS, WHERE-IS\n\nBUYER: [Your Name or LLC]\nSELLER: [Seller Name]\n\n1. PURCHASE PRICE\nBuyer agrees to purchase the above property for $${offer.toLocaleString()}, paid in cash at closing.\n\n2. EARNEST MONEY\nBuyer to deposit $2,500 with title company within 3 business days of acceptance.\n\n3. INSPECTION PERIOD\nBuyer has 7 days from acceptance to inspect property. Buyer may terminate during this period for any reason with full EMD refund.\n\n4. AS-IS SALE\nSeller makes no warranties. Property sold in current condition.\n\n5. CLOSING\nClosing within 21 days of acceptance at title company of Buyer's choice. Seller pays for owner's title policy.\n\n6. ASSIGNMENT CLAUSE — CRITICAL\nBuyer shall have the unconditional right to assign this Purchase and Sale Agreement, in whole or in part, to any third party of Buyer's choosing, including but not limited to individuals, limited liability companies (LLCs), corporations, real estate investment companies, real estate agencies, hedge funds, family offices, and institutional buyers.\n\nSeller acknowledges and consents to such assignment and agrees that no further approval, notification, or consent shall be required from Seller for any such assignment to be valid and binding.\n\nUpon Buyer's assignment, Buyer shall be released from all further obligations hereunder, and the assignee shall assume all rights, duties, and obligations of Buyer under this Agreement.\n\n7. DEFAULT\nIf Seller defaults, Buyer entitled to specific performance or full EMD refund plus damages.\nIf Buyer defaults after inspection period, Seller's sole remedy is the EMD.\n\nBUYER SIGNATURE: _________________ DATE: _______\nSELLER SIGNATURE: _________________ DATE: _______`;
+  copy(contract);
+}
+
+function copyDealSummary(id){
+  const d=DEALS.find(x=>x.id===id);if(!d)return;
+  const offer=Math.round(d.ask*0.9);
+  const summary=`DEAL SUMMARY: ${d.address}\n\nLocation: ${d.neighborhood}, ${d.city}, ${d.state}\nProperty: ${d.beds}bd/${d.baths}ba · ${d.sqft.toLocaleString()} sqft\nDays on Market: ${d.days}\nInvestor Score: ${d.score}/10${d.hot?' 🔥':''}\n\nFINANCIALS:\n• Ask Price: ${fmt(d.ask)}\n• ARV: ${fmt(d.arv)}\n• Total Spread: ${fmt(d.spread)}\n• Suggested Offer (10% under): $${offer.toLocaleString()}\n• 70% Rule Max: $${Math.round(d.arv*0.7).toLocaleString()}\n• Est. Repairs (10% ARV): $${Math.round(d.arv*0.1).toLocaleString()}\n• Assignment Fee Target: $${Math.round(d.spread*0.15).toLocaleString()}\n\nLISTING AGENT:\n• Name: ${d.agent}\n• Email: ${d.agentEmail}\n• Phone: ${d.agentPhone}\n• Source: ${d.source}`;
+  copy(summary);
+}
+
+function renderBuyers(){
+  const q=document.getElementById('bsearch').value.toLowerCase();
+  let f=buyers.filter(b=>{
+    if(q&&!b.name.toLowerCase().includes(q)&&!(b.company||'').toLowerCase().includes(q))return false;
+    if(bf==='cash')return b.funding==='cash'||b.funding==='both';
+    if(bf==='hedge')return b.type==='hedge';
+    if(['TX','FL','GA','OH'].includes(bf))return (b.states||[]).includes(bf)||(b.states||[]).includes('Nationwide');
+    return true;
+  });
+  document.getElementById('bs-total').textContent=buyers.length;
+  document.getElementById('bs-cash').textContent=buyers.filter(b=>b.funding==='cash'||b.funding==='both').length;
+  document.getElementById('bs-active').textContent=buyers.filter(b=>b.active!==false).length;
+  document.getElementById('bs-states').textContent=[...new Set(buyers.flatMap(b=>b.states||[]))].length;
+
+  if(!f.length){document.getElementById('buyers-list').innerHTML=`<div style="text-align:center;padding:40px 20px;color:var(--muted);">No buyers match.</div>`;return;}
+
+  document.getElementById('buyers-list').innerHTML=f.map(b=>{
+    const matched=getMatched(b);
+    const budget=b.min||b.max?`${fmt(b.min||0)}–${fmt(b.max||0)}`:'—';
+    return `
+    <div class="bc">
+      <div class="bctop">
+        <div class="bav">${ini(b.name)}</div>
+        <div class="bmain">
+          <div class="bn">${esc(b.name)}${b.verified?'<span class="bbadge v">✓</span>':''}${matched.length>0?`<span class="bbadge match">${matched.length} ${matched.length>1?'matches':'match'}</span>`:''}</div>
+          <div class="bcompany">${esc(b.company||'Individual')}</div>
+        </div>
+        <div class="bbadges">
+          ${b.funding==='cash'||b.funding==='both'?'<span class="bbadge cash">CASH</span>':''}
+          ${b.funding==='financed'?'<span class="bbadge fin">FIN</span>':''}
+          ${b.type==='hedge'?'<span class="bbadge hedge">HEDGE</span>':''}
+        </div>
+      </div>
+      <div class="bcontact">
+        <div class="row"><span class="icon">📧</span><a href="mailto:${esc(b.email)}">${esc(b.email)}</a></div>
+        <div class="row"><span class="icon">📱</span><span style="color:var(--light);font-weight:600;">${esc(b.phone||'—')}</span></div>
+      </div>
+      <div class="bbbox">
+        <div class="bbi"><div class="bbl">Budget</div><div class="bbv">${budget}</div></div>
+        <div class="bbi"><div class="bbl">Strategy</div><div class="bbv">${esc(b.strategy)}</div></div>
+        <div class="bbi"><div class="bbl">States</div><div class="bbv">${(b.states||[]).slice(0,4).join(', ')}${(b.states||[]).length>4?'+':''}</div></div>
+        <div class="bbi"><div class="bbl">Type</div><div class="bbv">${esc(b.proptype)}</div></div>
+      </div>
+      ${b.notes?`<div class="bnotes"><strong>📝</strong> ${esc(b.notes)}</div>`:''}
+      ${b.source?`<div class="bsource">🌐 <strong>${esc(b.source)}</strong></div>`:''}
+      <div class="bacts">
+        <button class="bact" onclick="copyEmail('${b.id}','buyer')">📋 Pitch</button>
+        <button class="bact" onclick="editC('buyer','${b.id}')">✏️ Edit</button>
+        <button class="bact primary" onclick="showMatches('${b.id}')">🎯 Matches</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderSellers(){
+  const q=document.getElementById('ssearch').value.toLowerCase();
+  let f=sellers.filter(s=>{
+    if(q&&!s.name.toLowerCase().includes(q)&&!(s.company||'').toLowerCase().includes(q))return false;
+    return true;
+  });
+  document.getElementById('ss-total').textContent=sellers.length;
+  document.getElementById('ss-tx').textContent=sellers.filter(s=>(s.states||[]).includes('TX')||(s.states||[]).includes('Nationwide')).length;
+  document.getElementById('ss-fl').textContent=sellers.filter(s=>(s.states||[]).includes('FL')||(s.states||[]).includes('Nationwide')).length;
+  document.getElementById('ss-other').textContent=sellers.filter(s=>!(s.states||[]).includes('TX')&&!(s.states||[]).includes('FL')&&!(s.states||[]).includes('Nationwide')).length;
+
+  if(!f.length){document.getElementById('sellers-list').innerHTML=`<div style="text-align:center;padding:40px 20px;color:var(--muted);">No sellers match.</div>`;return;}
+
+  document.getElementById('sellers-list').innerHTML=f.map(s=>`
+    <div class="bc seller-card">
+      <div class="bctop">
+        <div class="bav seller">${ini(s.name)}</div>
+        <div class="bmain">
+          <div class="bn">${esc(s.name)}${s.verified?'<span class="bbadge v">✓</span>':''}</div>
+          <div class="bcompany">${esc(s.company||'')}</div>
+        </div>
+        <div class="bbadges">
+          <span class="bbadge agent">SELLER</span>
+        </div>
+      </div>
+      <div class="bcontact">
+        <div class="row"><span class="icon">📧</span><a href="mailto:${esc(s.email)}">${esc(s.email)}</a></div>
+        <div class="row"><span class="icon">📱</span><span style="color:var(--light);font-weight:600;">${esc(s.phone||'—')}</span></div>
+      </div>
+      <div class="bbbox">
+        <div class="bbi"><div class="bbl">Markets</div><div class="bbv">${(s.states||[]).slice(0,4).join(', ')}${(s.states||[]).length>4?'+':''}</div></div>
+        <div class="bbi"><div class="bbl">Type</div><div class="bbv">${esc(s.type||'—')}</div></div>
+      </div>
+      ${s.notes?`<div class="bnotes"><strong>📝</strong> ${esc(s.notes)}</div>`:''}
+      ${s.source?`<div class="bsource">🌐 <strong>${esc(s.source)}</strong></div>`:''}
+      <div class="bacts">
+        <button class="bact" onclick="copyEmail('${s.id}','seller')">📋 Inquiry</button>
+        <button class="bact" onclick="editC('seller','${s.id}')">✏️ Edit</button>
+        <button class="bact primary" onclick="emailSeller('${s.id}')">📧 Email</button>
+      </div>
+    </div>`).join('');
+}
+
+function setBF(f,btn){bf=f;document.querySelectorAll('#tab-buyers .fb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderBuyers();}
+
+function showMatches(id){
+  const b=buyers.find(x=>x.id===id);if(!b)return;
+  const matched=getMatched(b);
+  if(!matched.length){toast('No matches in current pipeline');return;}
+  const list=matched.map(d=>`• ${d.address}, ${d.city} ${d.state} — Ask ${fmt(d.ask)}, Spread ${fmt(d.spread)}, Score ${d.score}`).join('\n');
+  copy(`MATCHES FOR ${b.name.toUpperCase()}\n(Buy box: ${(b.states||[]).join('/')}, ${fmt(b.min||0)}-${fmt(b.max||0)}, ${b.funding})\n\n${list}`);
+}
+
+function copyEmail(id,kind){
+  const b=(kind==='buyer'?buyers:sellers).find(x=>x.id===id);if(!b)return;
+  if(kind==='buyer'){
+    const matched=getMatched(b);
+    const dealList=matched.slice(0,3).map(d=>`• ${d.address} — ${d.city}, ${d.state}\n  Ask: ${fmt(d.ask)} | ARV: ${fmt(d.arv)} | Spread: ${fmt(d.spread)}\n  ${d.beds}bd/${d.baths}ba · ${d.sqft.toLocaleString()} sqft`).join('\n\n');
+    const email=`To: ${b.email}\nSubject: 🔥 Wholesale Deals Matching Your Buy Box\n\nHi ${b.name.split(' ')[0]},\n\nReaching out from WholesaleIQ. Pulled a few off-market deals this week that fit your buy box — ${(b.states||[]).join('/')}, ${fmt(b.min||0)}–${fmt(b.max||0)}, ${b.funding}, ${b.strategy}.\n\n${dealList||'I have fresh deals dropping daily. Want me to send the next batch as soon as they hit?'}\n\nIf any click for you, reply with the address and I'll send full details + assignment terms.\n\nLet's close one this week.\n\n[Your Name]\nWholesaleIQ Deal Desk\n[Your Phone] · [Your Email]`;
+    copy(email);
+  } else {
+    const email=`To: ${b.email}\nSubject: Cash Buyer — Looking for Wholesale Deals in ${(b.states||[]).join('/')}\n\nHi ${b.name.split(' ')[0]},\n\nI'm a serious cash investor with active funds, currently buying wholesale deals in ${(b.states||[]).join(', ')}. Looking to connect on your latest off-market inventory.\n\nMy buy box:\n• Cash buyer, proof of funds available\n• 14-21 day close, no contingencies\n• SFR & multifamily $50K-$500K\n• Will look at any motivated seller deal\n\nPlease add me to your buyer list. I'll close on the right deal within a week.\n\n[Your Name]\n[Your Phone] · [Your Email]\nWholesaleIQ`;
+    copy(email);
+  }
+}
+
+function emailSeller(id){
+  const s=sellers.find(x=>x.id===id);if(!s)return;
+  copyEmail(id,'seller');
+}
+
+// FORM
+function buildStateGrid(){
+  document.getElementById('state-grid').innerHTML=ALL_STATES.map(st=>`<div class="sb-cb"><input type="checkbox" id="s-${st}" value="${st}"><label for="s-${st}" style="${st==='Nationwide'?'font-size:8px':''}">${st==='Nationwide'?"Nat'l":st}</label></div>`).join('');
+}
+
+function openAdd(kind,id=null){
+  editKind=kind;editId=id;buildStateGrid();
+  document.getElementById('buybox-section').style.display=kind==='seller'?'none':'block';
+  if(id){
+    const list=kind==='buyer'?buyers:sellers;
+    const c=list.find(x=>x.id===id);if(!c)return;
+    document.getElementById('form-title').textContent=`Edit ${kind==='buyer'?'Buyer':'Seller'}`;
+    ['name','company','type','email','phone','min','max','funding','strategy','proptype','notes'].forEach(f=>{const el=document.getElementById('f-'+f);if(el)el.value=c[f]||'';});
+    (c.states||[]).forEach(st=>{const cb=document.getElementById('s-'+st);if(cb)cb.checked=true;});
+  }else{
+    document.getElementById('form-title').textContent=`Add ${kind==='buyer'?'Buyer':'Seller / Agent'}`;
+    ['name','company','email','phone','min','max','notes'].forEach(f=>{document.getElementById('f-'+f).value='';});
+    document.getElementById('f-type').value=kind==='seller'?'agency':'individual';
+    document.getElementById('f-funding').value='cash';
+    document.getElementById('f-strategy').value='fix-flip';
+    document.getElementById('f-proptype').value='SFR';
+  }
+  document.getElementById('add-mov').classList.add('on');
+}
+
+function editC(kind,id){openAdd(kind,id);}
+
+function saveContact(){
+  const name=document.getElementById('f-name').value.trim();
+  const email=document.getElementById('f-email').value.trim();
+  if(!name){toast('Name required!');return;}
+  if(!email){toast('Email required!');return;}
+  const states=[...document.querySelectorAll('#state-grid input:checked')].map(cb=>cb.value);
+  const c={
+    id:editId||(editKind+'-'+Date.now()),name,email,
+    company:document.getElementById('f-company').value.trim(),
+    type:document.getElementById('f-type').value,
+    phone:document.getElementById('f-phone').value.trim(),
+    notes:document.getElementById('f-notes').value.trim(),
+    states,active:true,kind:editKind,
+    addedAt:Date.now()
+  };
+  if(editKind==='buyer'){
+    c.min=parseInt(document.getElementById('f-min').value)||0;
+    c.max=parseInt(document.getElementById('f-max').value)||0;
+    c.funding=document.getElementById('f-funding').value;
+    c.strategy=document.getElementById('f-strategy').value;
+    c.proptype=document.getElementById('f-proptype').value;
+    if(editId){const i=buyers.findIndex(x=>x.id===editId);if(i>-1)buyers[i]=c;}
+    else buyers.unshift(c);
+    saveBuyers();renderBuyers();
+  }else{
+    if(editId){const i=sellers.findIndex(x=>x.id===editId);if(i>-1)sellers[i]=c;}
+    else sellers.unshift(c);
+    saveSellers();renderSellers();
+  }
+  toast(`✅ ${name} saved!`);closeAdd();
+}
+
+function closeAdd(){document.getElementById('add-mov').classList.remove('on');}
+function closeAddMov(e){if(e.target===document.getElementById('add-mov'))closeAdd();}
+
+function renderContracts(){
+  document.getElementById('contracts-list').innerHTML=CONTRACTS.map(c=>`
+    <div class="cc">
+      <div class="cch"><span class="ca">${esc(c.address)}</span><span class="cs ${c.status}">${c.status.toUpperCase()}</span></div>
+      <div class="cd">Buyer: ${esc(c.buyer)} · ${esc(c.closing)} · ${esc(c.price)}</div>
+    </div>`).join('');
+}
+
+function renderTemplates(){
+  const tpls=[
+    {title:"Agent Negotiation — 10% Below Asking",desc:"Send to listing agents to start a wholesale negotiation",body:`Subject: Cash Offer — [Property Address]\n\nHi [Agent Name],\n\nI'm a serious cash investor with active funds, interested in [Property Address]. Based on comps and condition, I'd like to submit $[10% below asking] for a quick, as-is cash close — no contingencies.\n\nWhat I bring:\n• Proof of funds available immediately\n• 14-21 day close, your title company or mine\n• No realtor commission required\n• 2-4 deals/month closed smoothly\n\nIf $[offer] doesn't work, I'm open to discussing — but I move fast and can wire EMD today.\n\nCan we get on a 5-min call?\n\n[Your Name]\n[Your Phone] · [Your Email]`},
+    {title:"Buyer Blast — New Hot Deal",desc:"Broadcast a wholesale deal to your buyer list",body:`Subject: 🔥 [City] [State] — $[Spread] Spread, Closes Fast\n\nHi [Buyer Name],\n\nNew off-market deal just hit. Thought of you immediately.\n\n🏠 [Property Address] — [City], [State]\n• Ask: $[Ask]\n• ARV: $[ARV]\n• Spread: $[Spread]\n• [Beds]bd / [Baths]ba · [Sqft] sqft\n\n[Brief description — neighborhood, condition, why it works]\n\nNumbers work, spread is real, need a serious cash buyer to move fast. First committed locks it in.\n\nReply "I'M IN" or call me to claim.\n\n[Your Name]\nWholesaleIQ Deal Desk`},
+    {title:"Buyer Blast SMS — 160 Chars",desc:"Quick text alert for hot deals",body:`🔥 [City][State] | [Beds]/[Baths] | Ask $[X]K | ARV $[X]K | Spread $[X]K | Cash only | Reply YES — [Name]`},
+    {title:"Wholesale Contract Assignment Clause",desc:"Drop into any purchase agreement",body:`ASSIGNMENT CLAUSE:\n\nBuyer shall have the unconditional right to assign this Purchase and Sale Agreement, in whole or in part, to any third party of Buyer's choosing, including but not limited to individuals, limited liability companies (LLCs), corporations, real estate investment companies, real estate agencies, hedge funds, family offices, and institutional buyers.\n\nSeller acknowledges and consents to such assignment and agrees that no further approval, notification, or consent shall be required from Seller for any such assignment to be valid and binding.\n\nUpon Buyer's assignment, Buyer shall be released from all further obligations hereunder, and the assignee shall assume all rights, duties, and obligations of Buyer under this Agreement.`},
+    {title:"Seller / Wholesaler Intro Email",desc:"Reach out to listing agents or wholesale sources to get on their buyer list",body:`Subject: Cash Buyer — Add Me to Your Wholesale List\n\nHi [Name],\n\nI'm a serious cash investor with active funds, currently buying wholesale deals in [States]. Looking to connect on your latest off-market inventory.\n\nMy buy box:\n• Cash buyer, proof of funds available\n• 14-21 day close, no contingencies, as-is\n• SFR & multifamily $[X]K-$[X]K\n• Will look at any motivated seller deal\n\nPlease add me to your buyer list. I'll close on the right deal within a week.\n\n[Your Name]\n[Phone] · [Email]\nWholesaleIQ`},
+    {title:"Morning Brief Email Template",desc:"Daily deal digest for your buyer list",body:`Subject: ☀️ WholesaleIQ Morning Brief — [Date]\n\nGood morning!\n\nToday's top wholesale opportunities:\n\n🏠 [Property 1] — [City], [State]\n   Ask $[X] | ARV $[X] | Spread $[X]\n   [Beds]/[Baths] · [Sqft] · Score [X] 🔥\n\n🏠 [Property 2] — [City], [State]\n   Ask $[X] | ARV $[X] | Spread $[X]\n\n🏠 [Property 3] — [City], [State]\n   Ask $[X] | ARV $[X] | Spread $[X]\n\nThese move fast — reply or call to lock in.\n\n[Your Name]\nWholesaleIQ Deal Desk`}
+  ];
+  document.getElementById('templates-list').innerHTML=tpls.map(t=>`
+    <div class="tpl-card">
+      <div class="tpl-card-title">${esc(t.title)}</div>
+      <div class="tpl-card-desc">${esc(t.desc)}</div>
+      <div class="tpl-body">${esc(t.body)}</div>
+      <button class="tpl-btn" onclick='copy(${JSON.stringify(t.body)})'>📋 Copy Template</button>
+    </div>`).join('');
+}
+
+function renderEmailLists(){
+  document.getElementById('buyer-emails').textContent=buyers.map(b=>b.email).join(', ');
+  document.getElementById('seller-emails').textContent=sellers.map(s=>s.email).join(', ');
+}
+
+function copyBuyerEmails(){copy(buyers.map(b=>b.email).join(', '));}
+function copySellerEmails(){copy(sellers.map(s=>s.email).join(', '));}
+
+function exportBuyerCSV(){
+  const headers=['Name','Email','Phone','Company','Type','States','Min','Max','Funding','Strategy','PropType','Notes','Source'];
+  const rows=buyers.map(b=>[b.name,b.email,b.phone||'',b.company||'',b.type||'',(b.states||[]).join(';'),b.min||'',b.max||'',b.funding||'',b.strategy||'',b.proptype||'',(b.notes||'').replace(/"/g,'""'),b.source||''].map(v=>`"${v}"`).join(','));
+  const csv=[headers.join(','),...rows].join('\n');
+  downloadCSV(csv,'wholesaleiq-buyers.csv');
+}
+
+function exportSellerCSV(){
+  const headers=['Name','Email','Phone','Company','Type','States','Notes','Source'];
+  const rows=sellers.map(s=>[s.name,s.email,s.phone||'',s.company||'',s.type||'',(s.states||[]).join(';'),(s.notes||'').replace(/"/g,'""'),s.source||''].map(v=>`"${v}"`).join(','));
+  const csv=[headers.join(','),...rows].join('\n');
+  downloadCSV(csv,'wholesaleiq-sellers.csv');
+}
+
+function downloadCSV(csv,filename){
+  const blob=new Blob([csv],{type:'text/csv'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=filename;
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  toast(`✅ Downloaded ${filename}`);
+}
+
+function sw(tab){
+  document.querySelectorAll('.tp').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  document.getElementById('tab-'+tab).classList.add('on');
+  document.getElementById('nav-'+tab).classList.add('on');
+  document.getElementById('scroll').scrollTop=0;
+  if(tab==='buyers')renderBuyers();
+  if(tab==='sellers')renderSellers();
+  if(tab==='templates')renderTemplates();
+  if(tab==='brief')renderEmailLists();
+  if(tab==='nova'&&!document.getElementById('msgs').children.length)novaWelcome();
+}
+
+// ── NOVA SMART CHATBOT (no API needed) ──
+function nt2(){return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
+
+function appendMsg(role,html){
+  const el=document.getElementById('msgs');
+  const d=document.createElement('div');
+  d.className='msg '+role;
+  d.innerHTML=`<div class="mav">${role==='n'?'N':'Y'}</div><div><div class="mb">${html}</div><div class="mt">${nt2()}</div></div>`;
+  el.appendChild(d);
+  el.scrollTop=el.scrollHeight;
+}
+
+function novaWelcome(){
+  appendMsg('n',`Hey! I'm <strong>Nova</strong> — your WholesaleIQ assistant. 💼<br><br>I know your full pipeline: <strong>${DEALS.length} deals</strong>, <strong>${buyers.length} buyers</strong>, <strong>${sellers.length} sellers</strong>, <strong>${CONTRACTS.length} active contracts</strong>.<br><br>Ask me about hot deals, buyer matches, contract deadlines, or tap a quick prompt above. What are we closing today?`);
+}
+
+function sendNova(){
+  const inp=document.getElementById('ci');
+  const q=inp.value.trim();
+  if(!q)return;
+  inp.value='';
+  appendMsg('u',esc(q).replace(/\n/g,'<br>'));
+  setTimeout(()=>askNova(q),350);
+}
+
+function askNova(query){
+  const q=query.toLowerCase();
+
+  // HOT DEALS
+  if(q.match(/hot|fire|🔥|best deal|top deal/)){
+    const hot=DEALS.filter(d=>d.hot).sort((a,b)=>b.spread-a.spread);
+    let resp=`<strong>🔥 ${hot.length} Hot Deals</strong> ranked by spread:<br><br>`;
+    hot.slice(0,5).forEach((d,i)=>{
+      resp+=`<strong>${i+1}. ${d.address}</strong> · ${d.city}, ${d.state}<br>Ask <strong>${fmt(d.ask)}</strong> · ARV <strong>${fmt(d.arv)}</strong> · Spread <strong>${fmt(d.spread)}</strong> · Score ${d.score}<br>Agent: ${d.agent}<br><br>`;
+    });
+    resp+=`Tap any deal card to see full research, comps, and closing actions.`;
+    appendMsg('n',resp);return;
+  }
+
+  // MATCH BUYERS
+  if(q.match(/match|buyer match|best buyer|who buys|who would buy/)){
+    const top=DEALS.filter(d=>d.hot).sort((a,b)=>b.spread-a.spread)[0];
+    if(!top){appendMsg('n','No hot deals to match right now.');return;}
+    const matched=buyers.filter(b=>{
+      const sm=!b.states?.length||b.states.includes(top.state)||b.states.includes('Nationwide');
+      const bm=(!b.min||top.ask>=b.min*0.8)&&(!b.max||top.ask<=b.max*1.2);
+      return sm&&bm;
+    });
+    let resp=`<strong>🎯 Best Buyers for ${top.address}</strong> (${top.city}, ${top.state} · ${fmt(top.spread)} spread):<br><br>`;
+    matched.slice(0,5).forEach((b,i)=>{
+      resp+=`<strong>${i+1}. ${b.name}</strong> ${b.verified?'✓':''}<br>${b.company}<br>${(b.states||[]).join('/')} · ${fmt(b.min||0)}–${fmt(b.max||0)} · ${b.funding}<br>📧 ${b.email}<br><br>`;
+    });
+    if(!matched.length)resp=`No buyers in your list match this deal. Try adding more buyers in the Buyers tab.`;
+    appendMsg('n',resp);return;
+  }
+
+  // CONTRACTS / DEADLINES
+  if(q.match(/contract|deadline|emd|due|urgent|follow.up/)){
+    let resp=`<strong>📋 Active Contracts</strong>:<br><br>`;
+    CONTRACTS.forEach((c,i)=>{
+      const status=c.status==='signed'?'✅ SIGNED':c.status==='pending'?'⏰ PENDING':'🔍 IN REVIEW';
+      resp+=`<strong>${c.address}</strong><br>${status} · ${c.buyer} · ${c.price}<br><em>${c.closing}</em><br><br>`;
+    });
+    const urgent=CONTRACTS.filter(c=>c.closing.includes('EMD'));
+    if(urgent.length)resp+=`⚠️ <strong>${urgent.length} contract${urgent.length>1?'s':''}</strong> have EMD deadlines coming up — call those buyers first.`;
+    appendMsg('n',resp);return;
+  }
+
+  // TOP BUYERS
+  if(q.match(/top buyer|best buyer|all buyer|cash buyer|buyers list/)){
+    const cashBuyers=buyers.filter(b=>b.funding==='cash'||b.funding==='both').slice(0,5);
+    let resp=`<strong>👥 Your Top Cash Buyers</strong>:<br><br>`;
+    cashBuyers.forEach((b,i)=>{
+      resp+=`<strong>${i+1}. ${b.name}</strong> ${b.verified?'✓':''}<br>${b.company}<br>${(b.states||[]).slice(0,3).join('/')} · ${fmt(b.min||0)}–${fmt(b.max||0)}<br>📧 ${b.email}<br><br>`;
+    });
+    resp+=`You have <strong>${buyers.length} total buyers</strong> in your network — go to Buyers tab to see all.`;
+    appendMsg('n',resp);return;
+  }
+
+  // PIPELINE
+  if(q.match(/pipeline|stats|summary|overview|dashboard|how.*doing/)){
+    const totalSpread=DEALS.reduce((a,d)=>a+d.spread,0);
+    const avg=Math.round(totalSpread/DEALS.length);
+    const hot=DEALS.filter(d=>d.hot).length;
+    const states=[...new Set(DEALS.map(d=>d.state))];
+    let resp=`<strong>📊 Pipeline Summary</strong>:<br><br>`;
+    resp+=`<strong>${DEALS.length}</strong> active deals across <strong>${states.length} states</strong> (${states.join(', ')})<br>`;
+    resp+=`<strong>${hot}</strong> 🔥 hot deals<br>`;
+    resp+=`<strong>${fmt(totalSpread)}</strong> total spread<br>`;
+    resp+=`<strong>${fmt(avg)}</strong> avg spread per deal<br><br>`;
+    resp+=`<strong>${buyers.length}</strong> buyers · <strong>${sellers.length}</strong> sellers · <strong>${CONTRACTS.length}</strong> contracts<br><br>`;
+    const topDeal=DEALS.sort((a,b)=>b.spread-a.spread)[0];
+    resp+=`💎 Biggest spread: <strong>${topDeal.address}</strong> at <strong>${fmt(topDeal.spread)}</strong>`;
+    appendMsg('n',resp);return;
+  }
+
+  // STATE-SPECIFIC
+  const stateMatch=q.match(/\b(tx|texas|fl|florida|ga|georgia|oh|ohio)\b/);
+  if(stateMatch){
+    const map={tx:'TX',texas:'TX',fl:'FL',florida:'FL',ga:'GA',georgia:'GA',oh:'OH',ohio:'OH'};
+    const st=map[stateMatch[1]];
+    const stateDeals=DEALS.filter(d=>d.state===st);
+    const stateBuyers=buyers.filter(b=>(b.states||[]).includes(st)||(b.states||[]).includes('Nationwide'));
+    let resp=`<strong>${st} Pipeline</strong>:<br><br>`;
+    resp+=`<strong>${stateDeals.length} deals</strong> · <strong>${stateBuyers.length} matching buyers</strong><br><br>`;
+    if(stateDeals.length){
+      stateDeals.forEach((d,i)=>{
+        resp+=`<strong>${d.address}</strong> · ${d.city}<br>Ask ${fmt(d.ask)} · ARV ${fmt(d.arv)} · Spread <strong>${fmt(d.spread)}</strong> ${d.hot?'🔥':''}<br><br>`;
+      });
+    }else resp+='No deals in this state yet.';
+    appendMsg('n',resp);return;
+  }
+
+  // SPECIFIC BUYER NAME
+  const buyer=buyers.find(b=>q.includes(b.name.toLowerCase().split(' ')[0])||q.includes(b.name.toLowerCase()));
+  if(buyer){
+    const matched=DEALS.filter(d=>{
+      const sm=!buyer.states?.length||buyer.states.includes(d.state)||buyer.states.includes('Nationwide');
+      const bm=(!buyer.min||d.ask>=buyer.min*0.8)&&(!buyer.max||d.ask<=buyer.max*1.2);
+      return sm&&bm;
+    });
+    let resp=`<strong>${buyer.name}</strong> ${buyer.verified?'✓':''}<br>${buyer.company}<br><br>`;
+    resp+=`📧 ${buyer.email}<br>📱 ${buyer.phone||'—'}<br><br>`;
+    resp+=`<strong>Buy box:</strong><br>States: ${(buyer.states||[]).join(', ')}<br>Budget: ${fmt(buyer.min||0)}–${fmt(buyer.max||0)}<br>Funding: ${buyer.funding}<br>Strategy: ${buyer.strategy}<br>Property: ${buyer.proptype}<br><br>`;
+    if(buyer.notes)resp+=`<em>${buyer.notes}</em><br><br>`;
+    resp+=`<strong>Matched deals (${matched.length}):</strong><br>`;
+    matched.slice(0,3).forEach(d=>{
+      resp+=`• ${d.address} ${d.state} · ${fmt(d.spread)} spread<br>`;
+    });
+    appendMsg('n',resp);return;
+  }
+
+  // SPECIFIC DEAL
+  const deal=DEALS.find(d=>q.includes(d.city.toLowerCase())||q.includes(d.address.toLowerCase().split(' ')[0]));
+  if(deal){
+    const offer=Math.round(deal.ask*0.9);
+    let resp=`<strong>${deal.address}</strong> · ${deal.city}, ${deal.state}<br><br>`;
+    resp+=`Ask: <strong>${fmt(deal.ask)}</strong><br>ARV: <strong>${fmt(deal.arv)}</strong><br>Spread: <strong>${fmt(deal.spread)}</strong><br>${deal.beds}bd/${deal.baths}ba · ${deal.sqft.toLocaleString()} sqft<br>Score: ${deal.score}${deal.hot?' 🔥':''}<br><br>`;
+    resp+=`<strong>Suggested offer (10% under):</strong> $${offer.toLocaleString()}<br>`;
+    resp+=`<strong>70% rule max:</strong> $${Math.round(deal.arv*0.7).toLocaleString()}<br><br>`;
+    resp+=`<strong>Agent:</strong> ${deal.agent}<br>📧 ${deal.agentEmail}<br>📱 ${deal.agentPhone}<br><br>`;
+    resp+=`Tap the deal card on the Deals tab for full research and one-tap closing actions.`;
+    appendMsg('n',resp);return;
+  }
+
+  // HELP / WHAT CAN YOU DO
+  if(q.match(/help|what can|what do|commands|how/)){
+    appendMsg('n',`I can help with:<br><br>🔥 <strong>"hot deals"</strong> — top deals by spread<br>🎯 <strong>"match buyers"</strong> — best buyers for your top deal<br>⚠️ <strong>"contracts due"</strong> — EMD deadlines<br>👥 <strong>"top buyers"</strong> — your best cash buyers<br>📊 <strong>"pipeline"</strong> — full summary<br>🤠 <strong>"texas deals"</strong> — by state (TX/FL/GA/OH)<br><br>You can also ask about specific people ("Paul Le", "David Hanna") or cities ("Tampa", "Houston") and I'll pull their info.`);
+    return;
+  }
+
+  // GREETINGS
+  if(q.match(/^(hi|hey|hello|sup|yo|good morning|good afternoon)/)){
+    const greetings=[`Hey! Ready to close a deal? 💼`,`Hi there. What's the move today?`,`Hey! ${DEALS.filter(d=>d.hot).length} hot deals waiting. What do you want to look at?`,`Yo! Pipeline's looking good — ${fmt(DEALS.reduce((a,d)=>a+d.spread,0))} in spread on the table.`];
+    appendMsg('n',greetings[Math.floor(Math.random()*greetings.length)]);return;
+  }
+
+  // THANKS
+  if(q.match(/thank|thanks|appreciate|good job/)){
+    appendMsg('n',`Anytime! Let's close one. 🎯`);return;
+  }
+
+  // FALLBACK
+  appendMsg('n',`I'm not sure what you're asking, but here's what I can do:<br><br>Try <strong>"hot deals"</strong>, <strong>"match buyers"</strong>, <strong>"contracts due"</strong>, <strong>"pipeline"</strong>, or ask about a specific city or buyer name.<br><br>Tap any quick prompt above to get started.`);
+}
+
+renderDeals();
+renderBuyers();
+renderSellers();
+renderContracts();
+renderEmailLists();
+</script>
+</body>
+</html>
