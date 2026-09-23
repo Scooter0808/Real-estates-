@@ -23,8 +23,8 @@ jobs:
           test -f README.md
           echo "Repository looks like a static HTML project."
 
-      - name: Optional Fortify security scan
-        if: ${{ secrets.FOD_TENANT != '' || secrets.FOD_USER != '' || secrets.FOD_PAT != '' || secrets.SSC_TOKEN != '' || secrets.SC_CLIENT_AUTH_TOKEN != '' || secrets.DEBRICKED_TOKEN != '' }}
+      - name: Run Fortify security scan
+        if: ${{ secrets.FOD_TENANT != '' && secrets.FOD_USER != '' && secrets.FOD_PAT != '' }}
         uses: fortify/github-action@ef5539bf4bd9c45c0bd971978f635a69eae55297
         with:
           sast-scan: true
@@ -34,14 +34,10 @@ jobs:
           FOD_TENANT: ${{ secrets.FOD_TENANT }}
           FOD_USER: ${{ secrets.FOD_USER }}
           FOD_PASSWORD: ${{ secrets.FOD_PAT }}
-          SSC_URL: ${{ vars.SSC_URL }}
-          SSC_TOKEN: ${{ secrets.SSC_TOKEN }}
-          SC_SAST_TOKEN: ${{ secrets.SC_CLIENT_AUTH_TOKEN }}
-          DEBRICKED_TOKEN: ${{ secrets.DEBRICKED_TOKEN }}
           SC_SAST_SENSOR_VERSION: 24.4.0
 
-      - name: Skip Fortify when credentials are missing
-        if: ${{ secrets.FOD_TENANT == '' && secrets.FOD_USER == '' && secrets.FOD_PAT == '' && secrets.SSC_TOKEN == '' && secrets.SC_CLIENT_AUTH_TOKEN == '' && secrets.DEBRICKED_TOKEN == '' }}
+      - name: Skip Fortify when FoD credentials are missing
+        if: ${{ secrets.FOD_TENANT == '' || secrets.FOD_USER == '' || secrets.FOD_PAT == '' }}
         run: |
-          echo "No Fortify credentials were configured for this repository. Skipping security scan."
-          echo "If you want automated Fortify scanning, add the required GitHub secrets and rerun the workflow."
+          echo "Fortify scan skipped because FOD_TENANT, FOD_USER, and FOD_PAT must all be configured."
+          echo "Add the required GitHub Actions secrets and rerun the workflow."
