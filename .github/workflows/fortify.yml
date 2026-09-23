@@ -23,8 +23,7 @@ jobs:
           test -f README.md
           echo "Repository looks like a static HTML project."
 
-      - name: Run Fortify security scan
-        if: ${{ secrets.FOD_TENANT != '' && secrets.FOD_USER != '' && secrets.FOD_PAT != '' }}
+      - name: Run Fortify Scan
         uses: fortify/github-action@ef5539bf4bd9c45c0bd971978f635a69eae55297
         with:
           sast-scan: true
@@ -34,10 +33,3 @@ jobs:
           FOD_TENANT: ${{ secrets.FOD_TENANT }}
           FOD_USER: ${{ secrets.FOD_USER }}
           FOD_PASSWORD: ${{ secrets.FOD_PAT }}
-          SC_SAST_SENSOR_VERSION: 24.4.0
-
-      - name: Skip Fortify when FoD credentials are missing
-        if: ${{ secrets.FOD_TENANT == '' || secrets.FOD_USER == '' || secrets.FOD_PAT == '' }}
-        run: |
-          echo "Fortify scan skipped because FOD_TENANT, FOD_USER, and FOD_PAT must all be configured."
-          echo "Add the required GitHub Actions secrets and rerun the workflow."
